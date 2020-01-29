@@ -1,0 +1,95 @@
+<!--
+  Generated template for the InspecaoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Inspeção</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-fab right bottom>
+    <button (click)="detalheInspecao()" ion-fab color="primary">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-card>
+    <ion-card-content>
+      <ion-row>
+        <ion-col col-7>
+          <strong style="font-size: 12px;">Skid de transport</strong>
+          
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-6>
+          <p style="font-size: 10px;"><strong>NP: </strong>P-700002158</p>
+          <p style="font-size: 10px;"><strong>NS: </strong>SCHTMLF12FC002</p>
+          <p style="font-size: 10px;"><strong>Ordem: </strong>1254879</p>
+          <p style="font-size: 10px;"><strong>Origem: </strong>NS-38</p>
+        </ion-col>
+        <ion-col pull-0>
+          <div>
+            <p style="font-size: 10px;">NF: 152545</p>
+            <p style="font-size: 10px;"><strong>RT: </strong>3152455</p>
+            <p style="font-size: 10px;"><strong>Equipamento: </strong>16455996</p>
+            <p style="font-size: 12px;">21/11/2019</p>
+          </div>
+        </ion-col>
+      </ion-row>     
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-list (click)="detalheInspecaoByID()">
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img src="assets/imgs/1.jpg">
+        </ion-thumbnail>
+        <strong>Com desvio</strong>
+        <p>Identificação</p>
+        <button ion-button clear icon-only item-end>
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <ion-card>
+    <ion-list>
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img src="assets/imgs/2.jpg">
+        </ion-thumbnail>
+        <strong>Sem desvio</strong>
+        <p></p>
+        <button ion-button clear icon-only item-end>
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+
+  <ion-card>
+    <ion-list>
+      <ion-item>
+        <ion-thumbnail item-start>
+          <img src="../assets/imgs/3.jpg">
+        </ion-thumbnail>
+        <strong>Sem desvio</strong>
+        <p>Vista panorâmica</p>
+        <button ion-button clear icon-only item-end>
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+</ion-content>
