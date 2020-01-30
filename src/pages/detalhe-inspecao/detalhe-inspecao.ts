@@ -26,7 +26,7 @@ export class DetalheInspecaoPage {
   count: number = 0;
 
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     public camera: Camera,
     public inspecaoService: InspecaoService,
@@ -37,92 +37,67 @@ export class DetalheInspecaoPage {
     console.log('ionViewDidLoad DetalheInspecaoPage');
   }
 
+  maisCount(){
+    this.count ++;
+  }
+
+  menosCount(){
+    this.count ++;
+  }
+
   getImageIfExists() {
+    this.maisCount();
     this.inspecaoService.getImageFromBucket(this.inspecaoDto.id)
-    .subscribe(response => {
-      this.inspecaoDto.imageUrl[0] = `${API_CONFIG.bucketBaseUrl}/cp${this.inspecaoDto.id}.jpg`;
-      this.blobToDataURL(response).then(dataUrl => {
-        let str : string = dataUrl as string;
-        this.profileImage = this.sanitizer.bypassSecurityTrustUrl(str);
-      });
-    },
-    error => {
-      this.profileImage = 'assets/imgs/avatar-blank.png';
-    });
+      .subscribe(response => {
+        this.inspecaoDto.imageUrl[0] = `${API_CONFIG.bucketBaseUrl}/cp1.jpg`;
+        this.blobToDataURL(response).then(dataUrl => {
+          let str: string = dataUrl as string;
+          this.profileImage = this.sanitizer.bypassSecurityTrustUrl(str);
+        });
+      },
+        error => {
+          this.profileImage = 'assets/imgs/avatar-blank.png';
+        });
   }
 
   // https://gist.github.com/frumbert/3bf7a68ffa2ba59061bdcfc016add9ee
   blobToDataURL(blob) {
     return new Promise((fulfill, reject) => {
-        let reader = new FileReader();
-        reader.onerror = reject;
-        reader.onload = (e) => fulfill(reader.result);
-        reader.readAsDataURL(blob);
+      let reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = (e) => fulfill(reader.result);
+      reader.readAsDataURL(blob);
     })
   }
 
   getCameraPicture() {
 
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
-    
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-     let base64Image = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-     // Handle error
-    });
-
-/*
     this.cameraOn = true;
     const options: CameraOptions = {
-      quality: 100,
+      quality: 50,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.PNG,
       mediaType: this.camera.MediaType.PICTURE
     }
-    
+
     this.camera.getPicture(options).then((imageData) => {
-     this.picture = 'data:image/png;base64,' + imageData;
-     this.cameraOn = false;
-    }, (err) => {
+      this.picture = 'data:image/png;base64,' + imageData;
       this.cameraOn = false;
-    });*/
-  }
-
-  getGalleryPicture() {
-
-    this.cameraOn = true;
-
-    const options: CameraOptions = {
-      quality: 100,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.PNG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
-    
-    this.camera.getPicture(options).then((imageData) => {
-     this.picture = 'data:image/png;base64,' + imageData;
-     this.cameraOn = false;
     }, (err) => {
       this.cameraOn = false;
     });
   }
 
   sendPicture() {
-    this.inspecaoService.uploadPicture(this.picture)
+    let id = this.inspecaoDto.id.toString() + this.count.toString();
+    this.inspecaoService.uploadPicture(this.picture, id)
       .subscribe(response => {
+        console.log(response);
         this.picture = null;
         this.getImageIfExists();
       },
-      error => {
-      });
+        error => {
+        });
   }
 
   cancel() {

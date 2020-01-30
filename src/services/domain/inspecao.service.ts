@@ -23,12 +23,12 @@ export class InspecaoService {
         return this.http.get(url, {responseType : 'blob'});
     }    
 
-    uploadPicture(picture) {
+    uploadPicture(picture, id) {
         let pictureBlob = this.imageUtilService.dataUriToBlob(picture);
         let formData : FormData = new FormData();
         formData.set('file', pictureBlob, 'file.png');
         return this.http.post(
-            `${API_CONFIG.baseUrl}/clientes/picture`, 
+            `${API_CONFIG.baseUrl}/inspecao/picture/${id}`, 
             formData,
             { 
                 observe: 'response', 

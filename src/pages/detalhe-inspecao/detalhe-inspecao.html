@@ -17,10 +17,10 @@
       <strong>Rastreabilidade</strong>
     </ion-card-header>
     <ion-card>
-      <img (click)="getCameraPicture()" src="assets/imgs/prod.jpg">
-      <img *ngIf="picture" [src]="picture">
+      <img *ngIf="picture == null" (click)="getCameraPicture()" src="assets/imgs/prod.jpg">
+      <img *ngIf="picture != null" [src]="picture">
     </ion-card>
-    <button *ngIf="picture" ion-button outline block (click)="cancel()">Descartar imagem</button>
+    <button *ngIf="picture != null" ion-button outline block (click)="cancel()">Descartar imagem</button>
     <ion-item>
       <ion-label>Com desvio?</ion-label>
       <ion-toggle checked="false"></ion-toggle>
@@ -44,8 +44,8 @@
         <ion-icon name="arrow-round-back"></ion-icon>
         Salvar
       </button>
-      <button ion-button icon-start clear item-end>
-        <ion-icon name="arrow-round-forward"></ion-icon>
+      <button ion-button icon-start clear item-end (click)="sendPicture()">
+        <ion-icon name="arrow-round-forward" ></ion-icon>
         Salvar e Próximo
       </button>
     </ion-item>
