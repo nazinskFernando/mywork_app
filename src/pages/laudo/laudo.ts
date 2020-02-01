@@ -1,4 +1,6 @@
-import { LaudoService } from '../../services/domain/laudo.service';
+import { EquipamentoDTO } from './../../models/equipamento.dto';
+import { LaudoService } from './../../services/domain/laudo.service';
+import { InspecaoService } from './../../services/domain/inspecao.service';
 import { InspecaoDTO } from '../../models/inspecao.dto';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -17,26 +19,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LaudoPage {
 
-  equipamento: InspecaoDTO;
+  inspecao: InspecaoDTO;
+  equipamento: EquipamentoDTO;
   idEquipamento: string;
 
   constructor(
               public navCtrl: NavController, 
               public navParams: NavParams,
-              public inspecaoService: LaudoService) {
+              public inspecaoService: InspecaoService,
+              public laudoService: LaudoService) {
     this.idEquipamento = navParams.get("id");
-    console.log("Inspecao " + this.idEquipamento);
   }
-
-  ionViewDidLoad() {
-    this.onLoadEquipamento();
-    console.log('ionViewDidLoad InspecaoPage');
-  }
-
-  onLoadEquipamento(){
+ 
+  ionViewDidLoad(){
     this.inspecaoService.findById(this.idEquipamento)
-      .subscribe((response: InspecaoDTO)=> {
-        this.equipamento = response;
+      .subscribe((response: InspecaoDTO) => {
+        this.inspecao = response;
       },
       error => {});
   }

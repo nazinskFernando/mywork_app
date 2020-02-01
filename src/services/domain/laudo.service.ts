@@ -12,11 +12,7 @@ export class LaudoService {
     constructor(public http: HttpClient,
                 public imageUtilService: ImageUtilService
                 ) {
-    }
-
-    findById(id: string) : Observable<InspecaoDTO>  {
-        return this.http.get<InspecaoDTO>(`${API_CONFIG.baseUrl}/equipamentos/${id}`);
-    }
+    }    
 
     getImageFromBucket(id : string) : Observable<any> {
         let url = `${API_CONFIG.bucketBaseUrl}/cp${id}.jpg`
