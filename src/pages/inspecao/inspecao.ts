@@ -1,10 +1,11 @@
-import { InspecaoService } from './../../services/domain/inspecao.service';
-import { EquipamentoDTO } from './../../models/equipamento.dto';
+import { InspecaoService } from '../../services/domain/inspecao.service';
+import { InspecaoDTO } from '../../models/inspecao.dto';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { API_CONFIG } from '../../config/api.config';
 
 /**
- * Generated class for the InspecaoPage page.
+ * Generated class for the EquipamentoPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -17,36 +18,31 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class InspecaoPage {
 
-  equipamento: EquipamentoDTO;
-  idEquipamento: string;
+  bucketUrl: string = API_CONFIG.bucketBaseUrl;
+  items: InspecaoDTO[];
+  
 
   constructor(
-              public navCtrl: NavController, 
-              public navParams: NavParams,
-              public inspecaoService: InspecaoService) {
-    this.idEquipamento = navParams.get("id");
-    console.log("Inspecao " + this.idEquipamento);
+      public navCtrl: NavController, 
+      public navParams: NavParams,
+      public inspecaoService: InspecaoService
+    ) {
   }
 
   ionViewDidLoad() {
-    this.onLoadEquipamento();
-    console.log('ionViewDidLoad InspecaoPage');
-  }
-
-  onLoadEquipamento(){
-    this.inspecaoService.findById(this.idEquipamento)
-      .subscribe((response: EquipamentoDTO)=> {
-        this.equipamento = response;
+    this.inspecaoService.findAll()
+      .subscribe(response => {
+        this.items = response;
       },
       error => {});
   }
 
-  detalheInspecao(){
-    this.navCtrl.push('DetalheInspecaoPage');
+  laudo(id: string){    
+    this.navCtrl.push('LaudoPage', {id: id});
   }
 
-  detalheInspecaoByID(){
-    this.navCtrl.push('DetalheInspecaoPage');
+  getItems(event){
+
   }
 
 }

@@ -1,10 +1,10 @@
 import { API_CONFIG } from './../../config/api.config';
-import { InspecaoService } from './../../services/domain/inspecao.service';
+import { LaudoService } from '../../services/domain/laudo.service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
-import { InspecaoDTO } from '../../models/inspecao.dto';
+import { LaudoDTO } from '../../models/laudo.dto';
 /**
  * Generated class for the DetalheInspecaoPage page.
  *
@@ -19,7 +19,7 @@ import { InspecaoDTO } from '../../models/inspecao.dto';
 })
 export class DetalheInspecaoPage {
 
-  inspecaoDto: InspecaoDTO;
+  inspecaoDto: LaudoDTO;
   cameraOn: boolean = false;
   picture: string;
   profileImage;
@@ -29,7 +29,7 @@ export class DetalheInspecaoPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public camera: Camera,
-    public inspecaoService: InspecaoService,
+    public inspecaoService: LaudoService,
     public sanitizer: DomSanitizer) {
   }
 

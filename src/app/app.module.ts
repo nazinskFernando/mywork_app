@@ -1,4 +1,4 @@
-import { InspecaoService } from './../services/domain/inspecao.service';
+import { LaudoService } from '../services/domain/laudo.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
@@ -7,7 +7,7 @@ import { Camera } from '@ionic-native/camera';
 
 import { MyApp } from './app.component';
 
-import { EquipamentoService } from '../services/domain/equipamento.service';
+import { InspecaoService } from '../services/domain/inspecao.service';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -41,8 +41,8 @@ import { ImageUtilService } from '../services/image-util.service';
     StorageService,
     ClienteService,
     ImageUtilService,
-    EquipamentoService,
     InspecaoService,
+    LaudoService,
     Camera
   ]
 })
