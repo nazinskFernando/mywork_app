@@ -7,45 +7,45 @@
 
 <ion-content>
   <ion-fab right bottom>
-    <button (click)="detalheInspecao()" ion-fab color="primary">
+    <button (click)="detalheInspecaoByID()" ion-fab color="primary">
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
-  <ion-card>
+  <ion-card >
     <ion-card-content>
       <ion-row>
         <ion-col col-7>
-        <strong style="font-size: 12px;">{{inspecao.id}}</strong>
+        <strong style="font-size: 12px;">{{equipamento.descricao}}</strong>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col col-6>
           <p style="font-size: 10px;">
-            <strong>NP: </strong>sdfg
+            <strong>NP: </strong>{{equipamento.partNumber}}
           </p>
           <p style="font-size: 10px;">
-            <strong>NS: </strong>sdfg
+            <strong>NS: </strong>{{equipamento.serialNumber}}
           </p>
         </ion-col>
         <ion-col pull-0>
           <div>
             <p style="font-size: 10px;">
-              <strong>Cliente: </strong>sfdsdf
+              <strong>Cliente: </strong>{{equipamento.cliente}}
             </p>
           </div>
         </ion-col>
       </ion-row>
     </ion-card-content>
-  </ion-card>
+  </ion-card >
 
-  <ion-card>
-    <ion-list (click)="detalheInspecaoByID()">
+  <ion-card *ngFor="let item of laudos">
+    <ion-list (click)="detalheInspecaoByID(item.id)">
       <ion-item>
         <ion-thumbnail item-start>
-          <img src="assets/imgs/1.jpg" />
-        </ion-thumbnail>
-        <strong>Com desvio</strong>
-        <p>Identificação</p>
+          <img [src]="item.imagem" />
+        </ion-thumbnail>        
+        <strong>{{item.tipo}}</strong>        
+        <p>{{item.descricaoLaudo}}</p>
         <button ion-button clear icon-only item-end>
           <ion-icon name="trash"></ion-icon>
         </button>
@@ -53,33 +53,4 @@
     </ion-list>
   </ion-card>
 
-  <ion-card>
-    <ion-list>
-      <ion-item>
-        <ion-thumbnail item-start>
-          <img src="assets/imgs/2.jpg" />
-        </ion-thumbnail>
-        <strong>Sem desvio</strong>
-        <p></p>
-        <button ion-button clear icon-only item-end>
-          <ion-icon name="trash"></ion-icon>
-        </button>
-      </ion-item>
-    </ion-list>
-  </ion-card>
-
-  <ion-card>
-    <ion-list>
-      <ion-item>
-        <ion-thumbnail item-start>
-          <img src="../assets/imgs/3.jpg" />
-        </ion-thumbnail>
-        <strong>Sem desvio</strong>
-        <p>Vista panorâmica</p>
-        <button ion-button clear icon-only item-end>
-          <ion-icon name="trash"></ion-icon>
-        </button>
-      </ion-item>
-    </ion-list>
-  </ion-card>
 </ion-content>

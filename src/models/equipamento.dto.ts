@@ -1,4 +1,4 @@
-export interface EquipamentoDTO {
+export class EquipamentoDTO {
     id : string;
     descricao : string;
     partNumber : string;

@@ -10,4 +10,4 @@ import { LaudoPage } from './laudo';
     IonicPageModule.forChild(LaudoPage),
   ],
 })
-export class InspecaoPageModule {}
+export class LaudoPageModule {}

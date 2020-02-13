@@ -1,12 +1,13 @@
+import { LaudoDTO } from './../../models/laudo.dto';
 import { EquipamentoDTO } from './../../models/equipamento.dto';
+import { InspecaoDTO } from '../../models/inspecao.dto';
 import { LaudoService } from './../../services/domain/laudo.service';
 import { InspecaoService } from './../../services/domain/inspecao.service';
-import { InspecaoDTO } from '../../models/inspecao.dto';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the InspecaoPage page.
+ * Generated class for the LaudoPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -19,32 +20,38 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LaudoPage {
 
-  inspecao: InspecaoDTO;
-  equipamento: EquipamentoDTO;
-  idEquipamento: string;
+  inspecao = new InspecaoDTO;
+  equipamento = new EquipamentoDTO;
+  laudos = new Array<LaudoDTO>();
+  idEquipamento: any;
+  inspecaoId: string;
 
   constructor(
               public navCtrl: NavController, 
               public navParams: NavParams,
               public inspecaoService: InspecaoService,
               public laudoService: LaudoService) {
-    this.idEquipamento = navParams.get("id");
   }
- 
-  ionViewDidLoad(){
-    this.inspecaoService.findById(this.idEquipamento)
-      .subscribe((response: InspecaoDTO) => {
+  
+  ionViewDidLoad() {
+    this.inspecaoId = this.navParams.get('id');
+    this.inspecaoService.findById(this.inspecaoId)
+      .subscribe((response : InspecaoDTO) => {
+        
         this.inspecao = response;
+        this.equipamento = this.inspecao.equipamento;
+        this.laudos = this.inspecao.laudos;
+        console.log(this.inspecao );
       },
       error => {});
   }
 
-  detalheInspecao(){
-    this.navCtrl.push('DetalheInspecaoPage');
-  }
-
-  detalheInspecaoByID(){
-    this.navCtrl.push('DetalheInspecaoPage');
+  detalheInspecaoByID(id?:string){
+    if(id){
+      this.navCtrl.push('DetalheInspecaoPage', {id: id, inspecaoId: this.inspecaoId});
+    } else {
+      this.navCtrl.push('DetalheInspecaoPage',{inspecaoId: this.inspecaoId});
+    }
   }
 
 }

@@ -11,45 +11,55 @@
 </ion-header>
 
 <ion-content>
-  
   <ion-card>
     <ion-card-header>
-      <strong>Rastreabilidade</strong>
+      <strong>{{laudo.tipo}}</strong>
     </ion-card-header>
     <ion-card>
-      <img *ngIf="picture == null" (click)="getCameraPicture()" src="assets/imgs/prod.jpg">
-      <img *ngIf="picture != null" [src]="picture">
+      <img
+        *ngIf="laudo.imagem == null"
+        (click)="getCameraPicture()"
+        src="../assets/imgs/prod.jpg"
+      />
+      <img *ngIf="laudo.imagem != null" [src]="laudo.imagem" (click)="getCameraPicture()" />
     </ion-card>
-    <button *ngIf="picture != null" ion-button outline block (click)="cancel()">Descartar imagem</button>
+    <button *ngIf="laudo.imagem != null" ion-button outline block (click)="cancel()">
+      Descartar imagem
+    </button>
     <ion-item>
       <ion-label>Com desvio?</ion-label>
-      <ion-toggle checked="false"></ion-toggle>
+      <ion-toggle [(ngModel)]="laudo.comDesvio" [(checked)]="laudo.comDesvio"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>Usar no relatório?</ion-label>
-      <ion-toggle checked="true"></ion-toggle>
+      <ion-toggle [(ngModel)]="laudo.usarRelatorio" [(checked)]="laudo.usarRelatorio"></ion-toggle>
     </ion-item>
     <ion-list>
       <ion-item>
         <ion-label>Laudo</ion-label>
-        <ion-select >
-          <ion-option value="nes">Desplacamento na pintura</ion-option>
-          <ion-option value="n64">Sem rastreabilidade</ion-option>
-          <ion-option value="ps">Rastreabilidade incorreta</ion-option>
+        <ion-select
+          [(ngModel)]="laudo.descricaoLaudo"
+          name="descricaoLaudo"
+          multiple="false"
+        >
+          <ion-option
+            [value]="item"
+            *ngFor="let item of descricoesLaudo"
+            [selected]="item == laudo.descricaoLaudo? true: false"
+            >{{item}}</ion-option
+          >
         </ion-select>
       </ion-item>
     </ion-list>
     <ion-item>
-      <button ion-button icon-start clear item-start>
+      <button ion-button icon-start clear item-start (click)="inserir()">
         <ion-icon name="arrow-round-back"></ion-icon>
         Salvar
       </button>
       <button ion-button icon-start clear item-end (click)="sendPicture()">
-        <ion-icon name="arrow-round-forward" ></ion-icon>
+        <ion-icon name="arrow-round-forward"></ion-icon>
         Salvar e Próximo
       </button>
     </ion-item>
-
   </ion-card>
-
 </ion-content>

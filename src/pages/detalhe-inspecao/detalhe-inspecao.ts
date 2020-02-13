@@ -1,10 +1,10 @@
-import { API_CONFIG } from './../../config/api.config';
-import { LaudoService } from '../../services/domain/laudo.service';
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Camera, CameraOptions } from '@ionic-native/camera';
-import { DomSanitizer } from '@angular/platform-browser';
-import { LaudoDTO } from '../../models/laudo.dto';
+import { API_CONFIG } from "./../../config/api.config";
+import { LaudoService } from "../../services/domain/laudo.service";
+import { Component } from "@angular/core";
+import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { Camera, CameraOptions } from "@ionic-native/camera";
+import { DomSanitizer } from "@angular/platform-browser";
+import { LaudoDTO } from "../../models/laudo.dto";
 /**
  * Generated class for the DetalheInspecaoPage page.
  *
@@ -14,50 +14,85 @@ import { LaudoDTO } from '../../models/laudo.dto';
 
 @IonicPage()
 @Component({
-  selector: 'page-detalhe-inspecao',
-  templateUrl: 'detalhe-inspecao.html',
+  selector: "page-detalhe-inspecao",
+  templateUrl: "detalhe-inspecao.html"
 })
 export class DetalheInspecaoPage {
-
-  inspecaoDto: LaudoDTO;
+  laudo = new LaudoDTO("",null,"","A fazer",false,false,0);
   cameraOn: boolean = false;
-  picture: string;
   profileImage;
   count: number = 0;
+  descricoesLaudo = new Array<string>();
+
+  teste: string;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public camera: Camera,
-    public inspecaoService: LaudoService,
-    public sanitizer: DomSanitizer) {
+    public laudoService: LaudoService,
+    public sanitizer: DomSanitizer
+  ) {
+    this.doDescricaoLaudo();
+    this.laudo.inspecao = this.navParams.get("inspecaoId");
+    console.log("valor inspecao " + this.navParams.get("inspecaoId"));
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad DetalheInspecaoPage');
+    
+    console.log("valor" + this.laudo);
+    if (this.navParams.get("id") != undefined) {
+      let laudoId = this.navParams.get("id");
+      this.laudoService.findByLaudoId(laudoId).subscribe(
+        (response: LaudoDTO) => {
+          this.laudo = response;
+          console.log(this.laudo);
+        },
+        error => {}
+      );
+    }
   }
 
-  maisCount(){
-    this.count ++;
+  inserir(){
+    //this.sendPicture(); 
+    this.laudoService.insert(this.laudo).subscribe(
+      response => {
+      // this. getImageIfExists();
+      },
+      error => {}
+    );
   }
 
-  menosCount(){
-    this.count ++;
+  doDescricaoLaudo() {
+    this.descricoesLaudo[0] = "Desplacamento na pintura";
+    this.descricoesLaudo[1] = "Sem rastreabilidade";
+    this.descricoesLaudo[2] = "Rastreabilidade incorreta";
+    this.descricoesLaudo[3] = "Desplacamento";
+    this.descricoesLaudo[4] = "Plaqueta vencida";
+  }
+
+  maisCount() {
+    this.count++;
+  }
+
+  menosCount() {
+    this.count++;
   }
 
   getImageIfExists() {
     this.maisCount();
-    this.inspecaoService.getImageFromBucket(this.inspecaoDto.id)
-      .subscribe(response => {
-        this.inspecaoDto.imageUrl[0] = `${API_CONFIG.bucketBaseUrl}/cp1.jpg`;
+    this.laudoService.getImageFromBucket('55').subscribe(
+      response => {
+        this.laudo.imagem = `${API_CONFIG.bucketBaseUrl}/cp1.jpg`;
         this.blobToDataURL(response).then(dataUrl => {
           let str: string = dataUrl as string;
           this.profileImage = this.sanitizer.bypassSecurityTrustUrl(str);
         });
       },
-        error => {
-          this.profileImage = 'assets/imgs/avatar-blank.png';
-        });
+      error => {
+        this.profileImage = "assets/imgs/avatar-blank.png";
+      }
+    );
   }
 
   // https://gist.github.com/frumbert/3bf7a68ffa2ba59061bdcfc016add9ee
@@ -65,43 +100,44 @@ export class DetalheInspecaoPage {
     return new Promise((fulfill, reject) => {
       let reader = new FileReader();
       reader.onerror = reject;
-      reader.onload = (e) => fulfill(reader.result);
+      reader.onload = e => fulfill(reader.result);
       reader.readAsDataURL(blob);
-    })
+    });
   }
 
   getCameraPicture() {
-
     this.cameraOn = true;
     const options: CameraOptions = {
       quality: 50,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.PNG,
       mediaType: this.camera.MediaType.PICTURE
-    }
+    };
 
-    this.camera.getPicture(options).then((imageData) => {
-      this.picture = 'data:image/png;base64,' + imageData;
-      this.cameraOn = false;
-    }, (err) => {
-      this.cameraOn = false;
-    });
+    this.camera.getPicture(options).then(
+      imageData => {
+        this.laudo.imagem = "data:image/png;base64," + imageData;
+        this.cameraOn = false;
+      },
+      err => {
+        this.cameraOn = false;
+      }
+    );
   }
 
   sendPicture() {
-    let id = this.inspecaoDto.id.toString() + this.count.toString();
-    this.inspecaoService.uploadPicture(this.picture, id)
-      .subscribe(response => {
-        console.log(response);
-        this.picture = null;
-        this.getImageIfExists();
+    let id = 55;//this.laudo.inspecao + this.count.toString();
+    this.laudoService.uploadPicture(this.laudo.imagem, id).subscribe(
+      response => {      
+        this.laudo.imagem = response.body;
+        this.inserir();
+       // this.getImageIfExists();
       },
-        error => {
-        });
+      error => {}
+    );
   }
 
   cancel() {
-    this.picture = null;
+    this.laudo.imagem = null;
   }
-
 }

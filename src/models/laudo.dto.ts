@@ -1,8 +1,14 @@
-export interface LaudoDTO {
+export class LaudoDTO {
 
-    id?: string;
-    imageUrl: string[]; 
-    descricao: string;
-    isRelatorio: boolean;
-    isDesvio: boolean;   
+    constructor(
+        public id: string,
+        public imagem: any,
+        public descricaoLaudo: string,
+        public tipo: string,
+        public usarRelatorio: boolean,
+        public comDesvio: boolean,
+        public inspecao: number
+    ){
+
+    }
 }

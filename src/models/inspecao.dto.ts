@@ -1,13 +1,13 @@
 import { NotaFiscalDTO } from './notaFiscal.dto';
 import { EquipamentoDTO } from './equipamento.dto';
 import { LaudoDTO } from './laudo.dto';
-export interface InspecaoDTO {
+export class InspecaoDTO {
 
-    id?: string;
+    id: string;
     descricao: string;
     partNumber: string;
     numeroSerie: string;
-    laudo: LaudoDTO; 
+    laudos: LaudoDTO[]; 
     equipamento: EquipamentoDTO;
     notaFiscal: NotaFiscalDTO;
 }
