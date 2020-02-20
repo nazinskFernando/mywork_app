@@ -7,7 +7,7 @@
 
 <ion-content>
   <ion-fab right bottom>
-    <button (click)="detalheInspecaoByID()" ion-fab color="primary">
+    <button (click)="novoLaudo()" ion-fab color="primary">
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
@@ -39,14 +39,14 @@
   </ion-card >
 
   <ion-card *ngFor="let item of laudos">
-    <ion-list (click)="detalheInspecaoByID(item.id)">
-      <ion-item>
-        <ion-thumbnail item-start>
+    <ion-list >
+      <ion-item >
+        <ion-thumbnail item-start (click)="detalheInspecaoByID(item.id)">
           <img [src]="item.imagem" />
         </ion-thumbnail>        
-        <strong>{{item.tipo}}</strong>        
-        <p>{{item.descricaoLaudo}}</p>
-        <button ion-button clear icon-only item-end>
+        <strong (click)="detalheInspecaoByID(item.id)">{{item.descricaoLaudo.tipoLaudo.descricao}}</strong>        
+        <p (click)="detalheInspecaoByID(item.id)">{{item.descricaoLaudo.descricao}}</p>
+        <button ion-button clear icon-only item-end (click)="deletarLaudo(item.id)">
           <ion-icon name="trash"></ion-icon>
         </button>
       </ion-item>

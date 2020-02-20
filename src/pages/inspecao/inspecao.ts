@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { InspecaoService } from '../../services/domain/inspecao.service';
 import { InspecaoDTO } from '../../models/inspecao.dto';
 import { Component } from '@angular/core';
@@ -25,11 +26,23 @@ export class InspecaoPage {
   constructor(
       public navCtrl: NavController, 
       public navParams: NavParams,
-      public inspecaoService: InspecaoService
+      public inspecaoService: InspecaoService,
+      public auth: AuthService
     ) {
   }
 
-  ionViewDidLoad() {
+  ionViewDidEnter() {
+    this.auth.refreshToken()
+      .subscribe(response => {
+        this.auth.successfulLogin(response.headers.get('Authorization'));        
+        this.inicio();
+      },
+      error => {
+        this.navCtrl.setRoot('HomePage');
+      });  
+  }
+
+  inicio() {
     this.inspecaoService.findAll()
       .subscribe(response => {
         this.items = response;

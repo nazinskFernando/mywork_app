@@ -1,0 +1,116 @@
+<!--
+  Generated template for the DetalheInspecaoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>Registros Fotográficos</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card>
+      <img
+        *ngIf="laudo.imagem == null"
+        (click)="getCameraPicture()"
+        src="../assets/imgs/prod.jpg"
+      />
+      <img
+        *ngIf="laudo.imagem != null"
+        [src]="laudo.imagem"
+        (click)="getCameraPicture()"
+      />
+    </ion-card>
+    <button
+      *ngIf="laudo.imagem != null"
+      ion-button
+      outline
+      block
+      (click)="cancel()"
+    >
+      Descartar imagem
+    </button>
+    <ion-item>
+      <ion-label>Com desvio?</ion-label>
+      <ion-toggle
+        [(ngModel)]="laudo.comDesvio"
+        [(checked)]="laudo.comDesvio"
+      ></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Usar no relatório?</ion-label>
+      <ion-toggle
+        [(ngModel)]="laudo.usarRelatorio"
+        [(checked)]="laudo.usarRelatorio"
+      ></ion-toggle>
+    </ion-item>
+    <ion-list *ngIf="tipoLaudo">
+      <ion-item>
+        <ion-label>Titulo</ion-label>
+        <ion-select
+          [(ngModel)]="tipoLaudo"
+          name="tipoLaudo"
+          multiple="false"
+          (ionChange)="getDescricaoLaudo($event)"
+        >
+          <ion-option
+            [value]="item"
+            *ngFor="let item of tiposLaudoAll"
+            [selected]="item == tipoLaudo? true: false"
+            >{{item.descricao}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <ion-list *ngIf="!tipoLaudo">
+      <ion-item>
+        <ion-label>Titulo</ion-label>
+        <ion-select
+          [(ngModel)]="tipoLaudo"
+          name="tipoLaudo"
+          multiple="false"
+          (ionChange)="getDescricaoLaudo($event)"
+        >
+          <ion-option
+            [value]="item"
+            *ngFor="let item of tiposLaudoAll"
+            [selected]="item == tipoLaudo? true: false"
+            >{{item.descricao}}
+          </ion-option>         
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-label>Descrição</ion-label>
+        <ion-select
+          [(ngModel)]="laudo.descricaoLaudo"
+          name="descricaoLaudo"
+          multiple="false"
+          (ionChange)="getDescricaoLaudoSelecionado($event)"
+        >
+          <ion-option
+            [value]="item"
+            *ngFor="let item of descricoesLaudo"
+            [selected]="item == laudo.descricaoLaudo? true: false"
+            >{{item.descricao}}</ion-option
+          >
+        </ion-select>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-item>
+    <button ion-button icon-start item-start (click)="sendPicture('')">
+      Salvar e fechar
+    </button>
+    <button ion-button icon-start item-end (click)="sendPicture('proximo')">
+      <ion-icon name="arrow-round-forward"></ion-icon>
+      Salva e Próximo
+    </button>
+  </ion-item>
+</ion-footer>

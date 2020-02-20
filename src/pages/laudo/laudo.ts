@@ -34,6 +34,10 @@ export class LaudoPage {
   }
   
   ionViewDidLoad() {
+    this.carregarLaudo();
+  }
+
+  carregarLaudo(){
     this.inspecaoId = this.navParams.get('id');
     this.inspecaoService.findById(this.inspecaoId)
       .subscribe((response : InspecaoDTO) => {
@@ -47,11 +51,18 @@ export class LaudoPage {
   }
 
   detalheInspecaoByID(id?:string){
-    if(id){
-      this.navCtrl.push('DetalheInspecaoPage', {id: id, inspecaoId: this.inspecaoId});
-    } else {
-      this.navCtrl.push('DetalheInspecaoPage',{inspecaoId: this.inspecaoId});
-    }
+    this.navCtrl.push('DetalheInspecaoPage', {id: id, inspecaoId: this.inspecaoId}); 
+  }
+
+  deletarLaudo(id: string){
+    this.laudoService.delete(id).subscribe((response) => {        
+        this.carregarLaudo();
+      },
+      error => {});
+  }
+
+  novoLaudo(){
+    this.navCtrl.setRoot('NewLaudoPage',{inspecaoId: this.inspecaoId});
   }
 
 }

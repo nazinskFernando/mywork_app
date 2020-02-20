@@ -12,9 +12,6 @@
 
 <ion-content>
   <ion-card>
-    <ion-card-header>
-      <strong>{{laudo.tipo}}</strong>
-    </ion-card-header>
     <ion-card>
       <img
         *ngIf="laudo.imagem == null"
@@ -34,32 +31,47 @@
       <ion-label>Usar no relatório?</ion-label>
       <ion-toggle [(ngModel)]="laudo.usarRelatorio" [(checked)]="laudo.usarRelatorio"></ion-toggle>
     </ion-item>
-    <ion-list>
+    <ion-list >
       <ion-item>
-        <ion-label>Laudo</ion-label>
+        <ion-label>Titulo</ion-label>
         <ion-select
-          [(ngModel)]="laudo.descricaoLaudo"
-          name="descricaoLaudo"
+          [(ngModel)]="tipoLaudo"
+          name="tipoLaudo"
           multiple="false"
+          (ionChange)="getDescricaoLaudo($event)"
         >
           <ion-option
             [value]="item"
-            *ngFor="let item of descricoesLaudo"
-            [selected]="item == laudo.descricaoLaudo? true: false"
-            >{{item}}</ion-option
+            *ngFor="let item of tiposLaudoAll"  
+            [selected]="item == tipoLaudo? true: false"         
+            >{{item.descricao}}</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item>
+        <ion-label>Descrição</ion-label>
+        <ion-select
+          [(ngModel)]="descricaoLaudoDTO"
+          name="descricaoLaudo"
+          multiple="false"  
+          (ionChange)="getDescricaoLaudoSelecionado($event)"       
+        >
+          <ion-option
+            [value]="item"
+            *ngFor="let item of descricoesLaudo"  
+            [selected]="item == descricaoLaudoDTO? true: false"         
+            >{{item.descricao}}</ion-option
           >
         </ion-select>
       </ion-item>
     </ion-list>
-    <ion-item>
-      <button ion-button icon-start clear item-start (click)="inserir()">
-        <ion-icon name="arrow-round-back"></ion-icon>
-        Salvar
-      </button>
-      <button ion-button icon-start clear item-end (click)="sendPicture()">
-        <ion-icon name="arrow-round-forward"></ion-icon>
-        Salvar e Próximo
-      </button>
-    </ion-item>
+  
   </ion-card>
+
 </ion-content>
+<ion-footer>
+  <button ion-button color="secondary" block (click)="finalizar()">
+    Salvar
+  </button>
+</ion-footer>
