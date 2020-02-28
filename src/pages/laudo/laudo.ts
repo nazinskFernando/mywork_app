@@ -1,3 +1,4 @@
+import { ClienteDTO } from './../../models/cliente.dto';
 import { LaudoDTO } from './../../models/laudo.dto';
 import { EquipamentoDTO } from './../../models/equipamento.dto';
 import { InspecaoDTO } from '../../models/inspecao.dto';
@@ -25,6 +26,7 @@ export class LaudoPage {
   laudos = new Array<LaudoDTO>();
   idEquipamento: any;
   inspecaoId: string;
+  cliente =  new ClienteDTO;
 
   constructor(
               public navCtrl: NavController, 
@@ -44,6 +46,7 @@ export class LaudoPage {
         
         this.inspecao = response;
         this.equipamento = this.inspecao.equipamento;
+        this.cliente = this.equipamento.cliente;
         this.laudos = this.inspecao.laudos;
         console.log(this.inspecao );
       },

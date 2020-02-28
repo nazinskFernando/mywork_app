@@ -44,7 +44,7 @@ export class InspecaoPage {
 
   inicio() {
     this.inspecaoService.findAll()
-      .subscribe(response => {
+      .subscribe((response : InspecaoDTO[])=> {
         this.items = response;
       },
       error => {});

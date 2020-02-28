@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Rx";
-import { ClienteDTO } from "../../models/cliente.dto";
+import { UsuarioDTO } from "../../models/usuario.dto";
 import { API_CONFIG } from "../../config/api.config";
 import { StorageService } from "../storage.service";
 import { ImageUtilService } from "../image-util.service";
 
 @Injectable()
-export class ClienteService {
+export class UsuarioService {
 
     constructor(
         public http: HttpClient, 
@@ -16,11 +16,11 @@ export class ClienteService {
     }
 
     findById(id: string) {
-        return this.http.get(`${API_CONFIG.baseUrl}/clientes/${id}`);
+        return this.http.get(`${API_CONFIG.baseUrl}/usuarios/${id}`);
     }
     
     findByEmail(email: string) {
-        return this.http.get(`${API_CONFIG.baseUrl}/clientes/email?value=${email}`);
+        return this.http.get(`${API_CONFIG.baseUrl}/usuarios/email?value=${email}`);
     }
 
     getImageFromBucket(id : string) : Observable<any> {
@@ -28,9 +28,9 @@ export class ClienteService {
         return this.http.get(url, {responseType : 'blob'});
     }
 
-    insert(obj : ClienteDTO) {
+    insert(obj : UsuarioDTO) {
         return this.http.post(
-            `${API_CONFIG.baseUrl}/clientes`, 
+            `${API_CONFIG.baseUrl}/usuarios`, 
             obj,
             { 
                 observe: 'response', 
@@ -44,7 +44,7 @@ export class ClienteService {
         let formData : FormData = new FormData();
         formData.set('file', pictureBlob, 'file.png');
         return this.http.post(
-            `${API_CONFIG.baseUrl}/clientes/picture`, 
+            `${API_CONFIG.baseUrl}/usuarios/picture`, 
             formData,
             { 
                 observe: 'response', 
