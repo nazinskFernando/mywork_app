@@ -1,3 +1,4 @@
+import { LingadaService } from './../services/domain/lingada.service';
 import { LaudoService } from '../services/domain/laudo.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -43,6 +44,7 @@ import { ImageUtilService } from '../services/image-util.service';
     ImageUtilService,
     InspecaoService,
     LaudoService,
+    LingadaService,
     Camera
   ]
 })

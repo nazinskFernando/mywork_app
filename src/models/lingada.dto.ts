@@ -1,6 +1,4 @@
-import { EquipamentoDTO } from './equipamento.dto';
-import { TipoLaudoDTO } from './tipoLaudo.dto';
-import { DescricaoLaudoDTO } from './descricaoLaudo.dto';
+
 export class LingadaDTO {
  
     public id: string;

@@ -1,3 +1,5 @@
+import { LingadaService } from './../../services/domain/lingada.service';
+import { LaudoService } from './../../services/domain/laudo.service';
 import { LingadaDTO } from './../../models/lingada.dto';
 import { AcessoriosComponentesDTO } from './../../models/acessoriosComponentes.dto';
 import { AuthService } from './../../services/auth.service';
@@ -35,15 +37,17 @@ export class LingadaPage {
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
+    public lingadaService: LingadaService,
     public inspecaoService: InspecaoService,
     public auth: AuthService) {
   }
 
   ionViewDidLoad() {
-    this.carregarLingada();
+    this.carregarDados();
+    
   }
 
-  carregarLingada(){
+  carregarDados(){
     this.inspecaoId = this.navParams.get('id');
     this.inspecaoService.findById(this.inspecaoId)
       .subscribe((response : InspecaoDTO) => {
@@ -52,8 +56,32 @@ export class LingadaPage {
         this.equipamento = this.inspecao.equipamento;
         this.cliente = this.equipamento.cliente;
         this.laudos = this.inspecao.laudos;
+        this.carregarLingadas();
       },
       error => {});
   }
 
+  carregarLingadas(){
+    this.inspecaoId = this.navParams.get('id');
+    this.lingadaService.findAll(this.inspecaoId)
+      .subscribe((response : LingadaDTO[]) => {        
+        this.lingadas = response;
+      },
+      error => {}
+      );
+  }
+
+  novaLingada(id){
+    this.navCtrl.push('NewLingadaPage', {inspecao: this.inspecao.id, lingada: id});
+  }
+
+  deletarLingada(id: string){
+    
+    this.lingadaService.delete(id)
+      .subscribe((response) => {        
+        this.carregarLingadas();
+      },
+      error => {}
+      );
+  }
 }

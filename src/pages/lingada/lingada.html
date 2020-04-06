@@ -13,10 +13,27 @@
 </ion-header>
 
 <ion-content>
+  <ion-fab right top>
+    <button *ngIf="lingadas.length < 2" (click)="novaLingada('')" ion-fab color="primary">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
   <inspecao 
       [inspecao]="inspecao" 
       [equipamento]="equipamento" 
       [cliente]="cliente">
   </inspecao>
+
+   <ion-item *ngFor="let item of lingadas">
+    <ion-icon  name="ios-git-network-outline" item-start></ion-icon>
+      <div (click)="novaLingada(item.id)">
+        <h2><strong>Código Petrobras: </strong> {{item.codigoPetrobras}}</h2>
+        <p><strong>Nº Certificado: </strong>{{item.numeroCertificado}}</p>
+        <ion-note item-end>{{item.dataCertificacao | date: 'dd/MM/yyyy'}}</ion-note>
+      </div>
+      <button ion-button clear icon-only item-end (click)="deletarLingada(item.id)">
+        <ion-icon name="trash"></ion-icon>
+      </button>      
+    </ion-item>
 
 </ion-content>
