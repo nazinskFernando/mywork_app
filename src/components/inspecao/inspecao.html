@@ -1,0 +1,26 @@
+<ion-card >
+  <ion-card-content>
+    <ion-row>
+      <ion-col col-7>
+      <strong style="font-size: 12px;">{{equipamento.descricao}}</strong>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6>
+        <p style="font-size: 10px;">
+          <strong>NP: </strong>{{equipamento.partNumber}}
+        </p>
+        <p style="font-size: 10px;">
+          <strong>NS: </strong>{{equipamento.serialNumber}}
+        </p>
+      </ion-col>
+      <ion-col pull-0>
+        <div>
+          <p style="font-size: 10px;">
+            <strong>Cliente: </strong>{{cliente.nome}}
+          </p>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card >

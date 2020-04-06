@@ -1,8 +1,9 @@
+import { AuthService } from './../../services/auth.service';
+import { InspecaoService } from '../../services/domain/inspecao.service';
+import { InspecaoDTO } from '../../models/inspecao.dto';
 import { Component } from '@angular/core';
-import { NavController, IonicPage } from 'ionic-angular';
-import { MenuController } from 'ionic-angular/components/app/menu-controller';
-import { CredenciaisDTO } from '../../models/credenciais.dto';
-import { AuthService } from '../../services/auth.service';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { API_CONFIG } from '../../config/api.config';
 
 @IonicPage()
 @Component({
@@ -11,41 +12,44 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HomePage {
 
-  creds : CredenciaisDTO = {
-    email: "",
-    senha: ""
-  };
+ 
+  bucketUrl: string = API_CONFIG.bucketBaseUrl;
+  items: InspecaoDTO[];
+  
 
   constructor(
-    public navCtrl: NavController, 
-    public menu: MenuController,
-    public auth: AuthService) {
-
-  }
-
-  ionViewWillEnter() {
-    this.menu.swipeEnable(false);
-  }
-    
-  ionViewDidLeave() {
-    this.menu.swipeEnable(true);
+      public navCtrl: NavController, 
+      public navParams: NavParams,
+      public inspecaoService: InspecaoService,
+      public auth: AuthService
+    ) {
   }
 
   ionViewDidEnter() {
     this.auth.refreshToken()
       .subscribe(response => {
-        this.auth.successfulLogin(response.headers.get('Authorization'));
-        this.navCtrl.setRoot('InspecaoPage');
+        this.auth.successfulLogin(response.headers.get('Authorization'));        
+        this.inicio();
       },
-      error => {});  
+      error => {
+        this.navCtrl.setRoot('LoginPage');
+      });  
   }
 
-  login() {
-    this.auth.authenticate(this.creds)
-      .subscribe(response => {
-        this.auth.successfulLogin(response.headers.get('Authorization'));
-        this.navCtrl.setRoot('InspecaoPage');
+  inicio() {
+    this.inspecaoService.findAll()
+      .subscribe((response : InspecaoDTO[])=> {
+        this.items = response;
       },
-      error => {});    
+      error => {});
   }
+
+  Inspecao(id: string){    
+    this.navCtrl.push('InspecaoPage', {id: id});
+  }
+
+  getItems(event){
+
+  }
+
 }

@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth.service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: string = 'InspecaoPage';
+  rootPage: string = 'HomePage';
 
   pages: Array<{title: string, component: string}>;
 
@@ -45,7 +45,7 @@ export class MyApp {
     switch (page.title) {
       case 'Logout':
       this.auth.logout();
-      this.nav.setRoot('HomePage');
+      this.nav.setRoot('LoginPage');
       break;
 
       default:
