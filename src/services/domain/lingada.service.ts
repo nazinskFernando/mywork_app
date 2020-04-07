@@ -13,8 +13,12 @@ export class LingadaService {
     constructor(public http: HttpClient
                 ) {}  
 
-    findAll(id: string) {
+    findByInspecao(id: string) {
         return this.http.get<LingadaDTO[]>(`${API_CONFIG.baseUrl}/lingadas/inspecao/${id}`);
+    } 
+
+    findAll(id: string) {
+        return this.http.get<LingadaDTO[]>(`${API_CONFIG.baseUrl}/lingadas`);
     } 
 
     findById(id: string) {

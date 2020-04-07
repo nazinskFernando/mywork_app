@@ -24,12 +24,13 @@
       [cliente]="cliente">
   </inspecao>
 
-   <ion-item *ngFor="let item of lingadas">
+   <ion-item *ngFor="let item of inspecao.lingadas">
     <ion-icon  name="ios-git-network-outline" item-start></ion-icon>
       <div (click)="novaLingada(item.id)">
         <h2><strong>Código Petrobras: </strong> {{item.codigoPetrobras}}</h2>
         <p><strong>Nº Certificado: </strong>{{item.numeroCertificado}}</p>
-        <ion-note item-end>{{item.dataCertificacao | date: 'dd/MM/yyyy'}}</ion-note>
+        <p><strong>Data Certificação: </strong>{{item.dataCertificacao | date: 'dd/MM/yyyy'}}</p>
+        
       </div>
       <button ion-button clear icon-only item-end (click)="deletarLingada(item.id)">
         <ion-icon name="trash"></ion-icon>

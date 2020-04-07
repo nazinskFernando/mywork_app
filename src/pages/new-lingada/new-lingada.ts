@@ -2,7 +2,7 @@ import { LingadaService } from './../../services/domain/lingada.service';
 import { LingadaDTO } from './../../models/lingada.dto';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { stringify } from '@angular/core/src/util';
 /**
  * Generated class for the NewLingadaPage page.
  *
@@ -21,11 +21,20 @@ export class NewLingadaPage {
   inspecaoId: string;
   lingadaId:string;
 
+  public event = {
+    month: '1990-02-19',
+    timeStarts: '07:43',
+    timeEnds: '1990-02-20'
+  }
+
+  public myDate = new Date().toISOString();
+
   constructor(
             public navCtrl: NavController, 
             public navParams: NavParams,
             public lingadaService: LingadaService) {
   }
+ 
 
   ionViewDidLoad() {
     this.inspecaoId = this.navParams.get('inspecao');
@@ -40,11 +49,16 @@ export class NewLingadaPage {
     
     this.lingadaService.findById(this.lingadaId)
       .subscribe((response : LingadaDTO) => {        
-        this.lingada = response;
+        this.lingada = response;  
+        this.lingada.dataCertificacao = new Date(this.lingada.dataCertificacao).toISOString();
+       
+       console.log('data ', this.lingada.dataCertificacao );
+        
       },
       error => {}
       );
   }
+  
 
   inserir() {
 

@@ -1,7 +1,7 @@
 
 import { AuthService } from './../../services/auth.service';
 import { InspecaoService } from '../../services/domain/inspecao.service';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ClienteDTO } from '../../models/cliente.dto';
 import { LaudoDTO } from '../../models/laudo.dto';
@@ -17,11 +17,12 @@ import { InspecaoDTO } from '../../models/inspecao.dto';
   selector: 'inspecao',
   templateUrl: 'inspecao.html'
 })
-export class InspecaoComponent{
+export class InspecaoComponent implements OnInit{
+  
 
   @Input()  inspecao: InspecaoDTO;
   @Input()  equipamento: EquipamentoDTO;
-  @Input()  cliente =  new ClienteDTO;
+  @Input()  cliente: ClienteDTO;
 
   laudos = new Array<LaudoDTO>();
   
@@ -33,7 +34,12 @@ export class InspecaoComponent{
     public navParams: NavParams,
     public inspecaoService: InspecaoService,
     public auth: AuthService
-  ) {   
+  ) {  
+    
+    
 }
 
+ngOnInit(): void {
+  console.log('valor', this.inspecao.id);
+}
 }

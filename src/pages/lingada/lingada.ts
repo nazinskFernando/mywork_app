@@ -55,21 +55,12 @@ export class LingadaPage {
         this.inspecao = response;
         this.equipamento = this.inspecao.equipamento;
         this.cliente = this.equipamento.cliente;
-        this.laudos = this.inspecao.laudos;
-        this.carregarLingadas();
+        this.laudos = this.inspecao.laudos;      
       },
       error => {});
   }
 
-  carregarLingadas(){
-    this.inspecaoId = this.navParams.get('id');
-    this.lingadaService.findAll(this.inspecaoId)
-      .subscribe((response : LingadaDTO[]) => {        
-        this.lingadas = response;
-      },
-      error => {}
-      );
-  }
+
 
   novaLingada(id){
     this.navCtrl.push('NewLingadaPage', {inspecao: this.inspecao.id, lingada: id});
@@ -79,7 +70,7 @@ export class LingadaPage {
     
     this.lingadaService.delete(id)
       .subscribe((response) => {        
-        this.carregarLingadas();
+        this.carregarDados();
       },
       error => {}
       );

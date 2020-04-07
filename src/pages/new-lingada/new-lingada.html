@@ -27,9 +27,8 @@
 
     <ion-item>
       <ion-label stacked>Data da Certificação</ion-label>
-      <ion-datetime [(ngModel)]="lingada.dataCertificacao" displayFormat="DD/MM/YYYY"></ion-datetime>
-    </ion-item>    
-  
+      <ion-datetime displayFormat="DD/MM/YYYY"   [(ngModel)]="lingada.dataCertificacao"></ion-datetime>
+    </ion-item>
   </ion-list>
 
   <button ion-button block (click)="inserir()">Salvar</button>
