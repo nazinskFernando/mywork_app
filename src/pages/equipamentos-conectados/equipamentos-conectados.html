@@ -8,13 +8,13 @@
 <ion-header>
 
   <ion-navbar>   
-    <ion-title>Lingadas</ion-title>
+    <ion-title>Equipamentos conectados</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-fab right top>
-    <button *ngIf="qtdLingadas < 2" (click)="novaLingada('')" ion-fab color="primary">
+    <button (click)="novoAcessorio('')" ion-fab color="primary">
       <ion-icon name="add"></ion-icon>
     </button>
   </ion-fab>
@@ -24,17 +24,16 @@
       [cliente]="cliente">
   </inspecao>
 
-   <ion-item *ngFor="let item of inspecao.lingadas">
-    <ion-icon  name="ios-git-network-outline" item-start></ion-icon>
-      <div (click)="novaLingada(item.id)">
-        <h2><strong>Código Petrobras: </strong> {{item.codigoPetrobras}}</h2>
-        <p><strong>Nº Certificado: </strong>{{item.numeroCertificado}}</p>
-        <p><strong>Data Certificação: </strong>{{item.dataCertificacao | date: 'dd/MM/yyyy'}}</p>
-        
-      </div>
+   <ion-item *ngFor="let item of inspecao.equipamentosConectados" >
+    <ion-icon name="ios-color-filter-outline" item-start></ion-icon>   
+        <p><strong>Descrição: </strong> {{item.equipamento.descricao}}</p>   
+        <p><strong>PN: </strong>{{item.equipamento.partNumber}}</p> 
+        <p><strong>SN: </strong>{{item.equipamento.serialNumber}}</p>           
+     
       <button ion-button clear icon-only item-end (click)="deletarLingada(item.id)">
         <ion-icon name="trash"></ion-icon>
-      </button>      
+      </button>     
+        
     </ion-item>
 
 </ion-content>

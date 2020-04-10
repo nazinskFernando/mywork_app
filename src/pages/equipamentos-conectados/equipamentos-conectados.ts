@@ -1,4 +1,4 @@
-import { LingadaService } from './../../services/domain/lingada.service';
+
 import { AuthService } from './../../services/auth.service';
 import { InspecaoService } from '../../services/domain/inspecao.service';
 import { InspecaoDTO } from '../../models/inspecao.dto';
@@ -6,8 +6,11 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { ClienteDTO } from '../../models/cliente.dto';
 import { EquipamentoDTO } from '../../models/equipamento.dto';
+import { AcessorioComponenteService } from '../../services/domain/acessorio_componente.service';
+import { EquipamentoConectadoService } from '../../services/domain/equipamentoConectado.service';
+
 /**
- * Generated class for the LingadaPage page.
+ * Generated class for the EquipamentosConectadosPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -15,22 +18,20 @@ import { EquipamentoDTO } from '../../models/equipamento.dto';
 
 @IonicPage()
 @Component({
-  selector: 'page-lingada',
-  templateUrl: 'lingada.html',
+  selector: 'page-equipamentos-conectados',
+  templateUrl: 'equipamentos-conectados.html',
 })
-export class LingadaPage {
+export class EquipamentosConectadosPage {
 
   inspecao = new InspecaoDTO;
   equipamento = new EquipamentoDTO;
   inspecaoId: string;
   cliente =  new ClienteDTO;
 
-  qtdLingadas:number;
-
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams,
-    public lingadaService: LingadaService,
+    public equipamentoConectadoService: EquipamentoConectadoService,
     public inspecaoService: InspecaoService,
     public modalCtrl: ModalController
     ) {
@@ -48,27 +49,25 @@ export class LingadaPage {
         
         this.inspecao = response;
         this.equipamento = this.inspecao.equipamento;
-        this.cliente = this.equipamento.cliente;
-        this.qtdLingadas = this.inspecao.lingadas.length;    
+        this.cliente = this.equipamento.cliente;   
       },
       error => {});
   }
 
-  novaLingada(id){
+  novoAcessorio(id){
 
-    let criarNovaLingada = this.modalCtrl.create('NewLingadaPage',  {inspecao: this.inspecao.id, lingada: id});
+    let criarNovaLingada = this.modalCtrl.create('NewEquipamentosConectadosPage',  {inspecao: this.inspecao.id, equipamentoConectadoId: id});
     criarNovaLingada.onDidDismiss(data => {
       console.log(data);
       this.inspecaoId = data;
       this.carregarDados();
     });
     criarNovaLingada.present();
-    // this.navCtrl.push('NewLingadaPage', {inspecao: this.inspecao.id, lingada: id});
   }
 
   deletarLingada(id: string){
     
-    this.lingadaService.delete(id)
+    this.equipamentoConectadoService.delete(id)
       .subscribe((response) => {        
         this.carregarDados();
       },

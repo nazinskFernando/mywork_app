@@ -24,19 +24,25 @@
 <ion-content padding>
   <ion-list>
     <ion-item>
-      <ion-label stacked>Código Petrobras</ion-label>
-      <ion-input [(ngModel)]="lingada.codigoPetrobras" type="text"></ion-input>
+      <ion-label stacked>BP</ion-label>
+      <ion-input [(ngModel)]="acessorio.bp" type="text"></ion-input>
     </ion-item>
   
     <ion-item>
-      <ion-label stacked>Nº do Certificado</ion-label>
-      <ion-input [(ngModel)]="lingada.numeroCertificado" type="text"></ion-input>
+      <ion-label stacked>Part Number</ion-label>
+      <ion-input [(ngModel)]="acessorio.pn" type="text"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label stacked>Data da Certificação</ion-label>
-      <ion-datetime displayFormat="DD/MM/YYYY"   [(ngModel)]="lingada.dataCertificacao"></ion-datetime>
+      <ion-label stacked>Serial Number</ion-label>
+      <ion-input [(ngModel)]="acessorio.ns" type="text"></ion-input>
     </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Descrição</ion-label>
+      <ion-textarea  [(ngModel)]="acessorio.descricao" placeholder="Descrição do componente"></ion-textarea>
+    </ion-item>
+
   </ion-list>
 
   <button ion-button block (click)="inserir()">Salvar</button>

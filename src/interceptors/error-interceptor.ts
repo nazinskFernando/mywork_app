@@ -48,7 +48,17 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     handle403() {
-        this.storage.setLocalUser(null);
+        let alert = this.alertCtrl.create({
+            title: 'Erro 403:',
+            message: ' Transação não autorizada',
+            enableBackdropDismiss: false,
+            buttons: [
+                {
+                    text: 'Ok'
+                }
+            ]
+        });
+        alert.present();
     }
 
     handle401() {

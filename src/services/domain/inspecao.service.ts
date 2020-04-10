@@ -16,4 +16,16 @@ export class InspecaoService {
   findById(id: string) {
     return this.http.get<InspecaoDTO>(`${API_CONFIG.baseUrl}/inspecao/${id}`);
   }
+
+  update(obj : InspecaoDTO) {       
+        
+    return this.http.put(
+        `${API_CONFIG.baseUrl}/inspecao/status`, 
+        obj,
+        { 
+            observe: 'response', 
+            responseType: 'text'
+        }
+    ); 
+}
 }

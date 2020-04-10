@@ -1,3 +1,4 @@
+import { UsuarioDTO } from './../models/usuario.dto';
 import { Injectable } from "@angular/core";
 import { CredenciaisDTO } from "../models/credenciais.dto";
 import { HttpClient } from "@angular/common/http";
@@ -43,9 +44,14 @@ export class AuthService {
             email: this.jwtHelper.decodeToken(tok).sub
         };
         this.storage.setLocalUser(user);
-    }    
+    }   
+    
+    findByEmail(email: string) {
+        return this.http.get<UsuarioDTO>(`${API_CONFIG.baseUrl}/usuarios/email/${email}`);
+    } 
 
     logout() {
         this.storage.setLocalUser(null);
+        this.storage.setUsuarioLocal(null);
     }
 }

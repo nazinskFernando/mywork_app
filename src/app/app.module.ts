@@ -18,6 +18,10 @@ import { StorageService } from '../services/storage.service';
 import { UsuarioService } from '../services/domain/usuario.service';
 import { AuthInterceptorProvider } from '../interceptors/auth-interceptor';
 import { ImageUtilService } from '../services/image-util.service';
+import { AcessorioComponenteService } from '../services/domain/acessorio_componente.service';
+import { EquipamentoService } from '../services/domain/equipamento.service';
+import { EquipamentoConectadoService } from '../services/domain/equipamentoConectado.service';
+import { UsuarioComponent } from '../components/usuario/usuario';
 
 @NgModule({
   declarations: [
@@ -25,12 +29,12 @@ import { ImageUtilService } from '../services/image-util.service';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
+    HttpClientModule,    
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp
+    MyApp, 
   ],
   providers: [
     StatusBar,
@@ -45,6 +49,9 @@ import { ImageUtilService } from '../services/image-util.service';
     InspecaoService,
     LaudoService,
     LingadaService,
+    EquipamentoService,
+    AcessorioComponenteService,
+    EquipamentoConectadoService,
     Camera
   ]
 })

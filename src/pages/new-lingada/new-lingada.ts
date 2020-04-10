@@ -1,8 +1,7 @@
 import { LingadaService } from './../../services/domain/lingada.service';
 import { LingadaDTO } from './../../models/lingada.dto';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { stringify } from '@angular/core/src/util';
+import { IonicPage, NavController, NavParams,ViewController  } from 'ionic-angular';
 /**
  * Generated class for the NewLingadaPage page.
  *
@@ -21,17 +20,10 @@ export class NewLingadaPage {
   inspecaoId: string;
   lingadaId:string;
 
-  public event = {
-    month: '1990-02-19',
-    timeStarts: '07:43',
-    timeEnds: '1990-02-20'
-  }
-
-  public myDate = new Date().toISOString();
-
   constructor(
             public navCtrl: NavController, 
             public navParams: NavParams,
+            public viewCtrl: ViewController,
             public lingadaService: LingadaService) {
   }
  
@@ -70,7 +62,8 @@ export class NewLingadaPage {
     
       this.lingadaService.insert(this.lingada).subscribe(
         response => {
-          this.navCtrl.push('LingadaPage', {id: this.lingada.inspecao});
+          // this.navCtrl.push('LingadaPage', {id: this.lingada.inspecao});
+          this.closeModal();
         },
         error => {}
       );
@@ -84,10 +77,16 @@ export class NewLingadaPage {
     
     this.lingadaService.update(this.lingada).subscribe(
       response => {
-        this.navCtrl.push('LingadaPage', {id: this.lingada.inspecao});
+        // this.navCtrl.push('LingadaPage', {id: this.lingada.inspecao});
+        this.closeModal();
+        
       },
       error => {}
     );
+  }
+
+  closeModal(){
+    this.viewCtrl.dismiss({id: this.lingada.inspecao});
   }
 
 }

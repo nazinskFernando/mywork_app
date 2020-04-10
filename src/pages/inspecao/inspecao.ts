@@ -1,14 +1,14 @@
+import { StorageService } from './../../services/storage.service';
 import { LingadaDTO } from './../../models/lingada.dto';
 import { AcessoriosComponentesDTO } from './../../models/acessoriosComponentes.dto';
-import { AuthService } from './../../services/auth.service';
 import { InspecaoService } from '../../services/domain/inspecao.service';
 import { InspecaoDTO } from '../../models/inspecao.dto';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { API_CONFIG } from '../../config/api.config';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { ClienteDTO } from '../../models/cliente.dto';
 import { LaudoDTO } from '../../models/laudo.dto';
 import { EquipamentoDTO } from '../../models/equipamento.dto';
+import { AlertController } from 'ionic-angular';
 
 /**
  * Generated class for the EquipamentoPage page.
@@ -42,13 +42,87 @@ export class InspecaoPage {
       public navCtrl: NavController, 
       public navParams: NavParams,
       public inspecaoService: InspecaoService,
-      public auth: AuthService
+      public storage: StorageService,
+      public alertCtrl: AlertController,      
+      public modalCtrl: ModalController
     ) {
   }
 
   ionViewDidEnter() {
-    this.carregarLaudo();
+    this.carregarLaudo();  
   }
+
+  popUpInterromper() {
+    const prompt = this.alertCtrl.create({
+      title: "Interromper Inspeção?",
+      message: "Informe o motivo da Interrupção",
+      inputs: [
+        {
+          name: 'Observação:',
+          placeholder: 'Informe a observação'
+        },
+        
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Salvar',
+          handler: data => {
+            this.alterarStatus(data, '3');
+                      
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  popFinalizacao(){
+    let criarNovaLingada = this.modalCtrl.create('PopupPage', {id: this.inspecao.id});
+    criarNovaLingada.onDidDismiss(data => {
+      console.log(data);
+      this.inspecao.observacao = data.comentario;
+      this.inspecao.estadoEquipamento = data.estado;      
+    });
+    criarNovaLingada.present();
+}
+
+  
+
+  popRetornoInterrupcao() {
+    const prompt = this.alertCtrl.create({
+      title: `Realizar Inspeção?`,
+      message: "Informe o motivo da Interrupção",
+      inputs: [
+        {
+          name: 'Observação:',
+          placeholder: 'Informe a observação'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Não',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Sim',
+          handler: data => {            
+           this.alterarStatus(data, '1');                     
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  
 
   carregarLaudo(){
     this.inspecaoId = this.navParams.get('id');
@@ -68,22 +142,35 @@ export class InspecaoPage {
     this.qtdLaudos.valor = this.inspecao.laudos.length;
     if(this.qtdLaudos.valor !=0){
       this.qtdLaudos.color = "secondary";
+      if(this.inspecao.statusInspecao == "PENDENTE"){
+        this.alterarStatus(null, '1');
+      }
     }
 
     this.qtdLingada.valor = this.inspecao.lingadas.length;
     if(this.qtdLingada.valor !=0){
       this.qtdLingada.color = "secondary";
+      if(this.inspecao.statusInspecao == "PENDENTE"){
+        this.alterarStatus(null, '1');
+      }
     }
 
     this.qtdAcessoriosComponentes.valor = this.inspecao.acessoriosComponentes.length;
     if(this.qtdAcessoriosComponentes.valor !=0){
       this.qtdAcessoriosComponentes.color = "secondary";
+      if(this.inspecao.statusInspecao == "PENDENTE"){
+        this.alterarStatus(null, '1');
+      }
     }
 
-    // this.qtdEquipamentosConectados.valor = this.inspecao.qtdEquipamentosConectados.length;
-    // if(this.qtdEquipamentosConectados.valor !=0){
-    //   this.qtdEquipamentosConectados.color = "secondary";
-    // }
+    this.qtdEquipamentosConectados.valor = this.inspecao.equipamentosConectados.length;
+    if(this.qtdEquipamentosConectados.valor !=0){
+      
+      this.qtdEquipamentosConectados.color = "secondary";
+      if(this.inspecao.statusInspecao == "PENDENTE"){
+        this.alterarStatus(null, '1');
+      }
+    }
   }
 
   goLink(tela: string){
@@ -95,9 +182,28 @@ export class InspecaoPage {
       case "lingada":
         this.navCtrl.push('LingadaPage', {id: this.inspecao.id});
       break;
+      case "acessorios":
+        this.navCtrl.push('AcessoriosComponentesPage', {id: this.inspecao.id});
+      break;
+      case "equipamentos":
+        this.navCtrl.push('EquipamentosConectadosPage', {id: this.inspecao.id});
+      break;     
 
     }
   }
+  alterarStatus(observacao, status){
+    var inspecaoUpdate = new InspecaoDTO();
+   
+    this.inspecao.observacao = observacao;
+    inspecaoUpdate.id = this.inspecaoId;
+    inspecaoUpdate.statusInspecao = status;
+    inspecaoUpdate.usuario.id = this.storage.getUsuarioLocal().id;
 
+    this.inspecaoService.update(inspecaoUpdate)
+      .subscribe((response) => {
+        this.carregarLaudo();
+      },
+      error => {});
+  }
 
 }

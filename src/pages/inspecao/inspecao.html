@@ -23,16 +23,16 @@
         <ion-badge item-end [color]="qtdLingada.color">{{qtdLingada.valor}}</ion-badge>
     </ion-item>
 
-    <ion-item>
+    <ion-item (click)="goLink('acessorios')">
       <ion-icon name="ios-construct-outline" item-start></ion-icon>
         Acessórios e Componentes
         <ion-badge item-end [color]="qtdAcessoriosComponentes.color">{{qtdAcessoriosComponentes.valor}}</ion-badge>
     </ion-item>
 
-    <ion-item>
-      <ion-icon name="ios-color-filter-outline" item-start></ion-icon>
+    <ion-item (click)="goLink('equipamentos')" >
+      <ion-icon  name="ios-color-filter-outline" item-start></ion-icon>
         Equipamentos conectados
-        <ion-badge item-end>2</ion-badge>
+        <ion-badge item-end [color]="qtdEquipamentosConectados.color">{{qtdEquipamentosConectados.valor}}</ion-badge>
     </ion-item>
 
     <ion-item (click)="goLink('laudo')">
@@ -41,3 +41,20 @@
         <ion-badge item-end [color]="qtdLaudos.color">{{qtdLaudos.valor}}</ion-badge>
     </ion-item>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <button block ion-button (click)="popFinalizacao()">Finalizar</button>
+          </ion-col>
+          <ion-col>
+            <button block ion-button color="danger" (click)="popUpInterromper()">Interromper</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      
+    </ion-title>
+  </ion-toolbar>
+</ion-footer>

@@ -1,8 +1,10 @@
+import { StorageService } from './../../services/storage.service';
 import { Component } from '@angular/core';
 import { NavController, IonicPage } from 'ionic-angular';
 import { MenuController } from 'ionic-angular/components/app/menu-controller';
 import { CredenciaisDTO } from '../../models/credenciais.dto';
 import { AuthService } from '../../services/auth.service';
+import { UsuarioDTO } from '../../models/usuario.dto';
 
 /**
  * Generated class for the LoginPage page.
@@ -26,6 +28,7 @@ export class LoginPage {
   constructor(
     public navCtrl: NavController, 
     public menu: MenuController,
+    public storage: StorageService,
     public auth: AuthService) {
 
   }
@@ -39,20 +42,31 @@ export class LoginPage {
   }
 
   ionViewDidEnter() {
+    if(this.storage.getLocalUser()){    
     this.auth.refreshToken()
       .subscribe(response => {
         this.auth.successfulLogin(response.headers.get('Authorization'));
         this.navCtrl.setRoot('HomePage');
       },
       error => {});  
+    }
   }
 
   login() {
     this.auth.authenticate(this.creds)
       .subscribe(response => {
         this.auth.successfulLogin(response.headers.get('Authorization'));
+        this.getUsuario();
         this.navCtrl.setRoot('HomePage');
       },
       error => {});    
+  }  
+
+  getUsuario(){
+    this.auth.findByEmail(this.creds.email)
+      .subscribe((response: UsuarioDTO) => {
+        this.storage.setUsuarioLocal(response);
+      },
+      error => {});  
   }
 }
