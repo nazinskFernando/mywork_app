@@ -33,6 +33,20 @@ export class LaudoService {
             }
         ); 
     }
+
+    // deletePicture(id: string) {
+    //     return this.http.delete(`${API_CONFIG.baseUrl}/laudo/picture/delete/${id}`);
+    // }
+
+    deletePicture(id) {
+        return this.http.post(
+            `${API_CONFIG.baseUrl}/laudo/picture/delete/${id}`, 
+            
+            { 
+                observe: 'response', 
+            }
+        ); 
+    }
     
     findByLaudoId(id: string) {
         return this.http.get<LaudoDTO>(`${API_CONFIG.baseUrl}/laudo/${id}`);

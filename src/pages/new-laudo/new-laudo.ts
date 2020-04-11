@@ -22,7 +22,7 @@ import { AlertController } from "ionic-angular";
   templateUrl: "new-laudo.html"
 })
 export class NewLaudoPage {
-  laudo = new LaudoDTO("", null, null, false, false, null);
+  laudo = new LaudoDTO("", null, null, false, null);
   cameraOn: boolean = false;
   profileImage;
   count: number = 0;
@@ -51,6 +51,8 @@ export class NewLaudoPage {
     public viewCtrl: ViewController,  
   ) {
     this.inspecaoId = this.navParams.get("inspecaoId");
+    this.count = this.navParams.get("count");
+    console.log('count ', this.count);
   }
 
   ionViewDidLoad() {
@@ -124,10 +126,14 @@ export class NewLaudoPage {
     }
   }
 
-  inserir(tipoInsercao: string) {
+  inserir(tipoInsercao?: string) {
     this.laudo.equipamento = this.inspecao.equipamento.id;
-    this.laudo.inspecao = this.inspecaoId;    
-    this.laudo.descricaoLaudo.tipoLaudo = this.tipoLaudo;
+    this.laudo.inspecao = this.inspecaoId;  
+    
+    if(this.tipoLaudo != undefined){
+      this.laudo.descricaoLaudo.tipoLaudo = this.tipoLaudo;
+    } 
+    
     this.laudoService.insert(this.laudo).subscribe(
       response => {
         if (tipoInsercao == "proximo") {
@@ -174,7 +180,6 @@ export class NewLaudoPage {
       reader.readAsDataURL(blob);
     });
   }
-
   
 
   proximo() {

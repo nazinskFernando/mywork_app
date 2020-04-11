@@ -27,7 +27,7 @@ export class DetalheInspecaoPage {
   laudo = new LaudoDTO("", null, null, false, false, null);
   cameraOn: boolean = false;
   profileImage;
-  count: number = 0;
+  idImagem: string;
   inspecaoId: string;
   inspecao: InspecaoDTO;
   tiposLaudo: TipoLaudoDTO[];
@@ -89,6 +89,9 @@ export class DetalheInspecaoPage {
       (response: InspecaoDTO) => {
         this.inspecao = response;
         this.laudos = this.inspecao.laudos;
+        this.idImagem = this.laudo.imagem.substring(this.laudo.imagem.indexOf("com/") + 6);
+        this.idImagem = this.idImagem.split(".")[0];
+        console.log('imagem valor', this.idImagem)
         this.getTipoLaudoAll();
       },
       error => {}
@@ -199,20 +202,7 @@ export class DetalheInspecaoPage {
     );
   }
 
-  getImageIfExists() {
-    this.laudoService.getImageFromBucket("55").subscribe(
-      response => {
-        this.laudo.imagem = `${API_CONFIG.bucketBaseUrl}/cp1.jpg`;
-        this.blobToDataURL(response).then(dataUrl => {
-          let str: string = dataUrl as string;
-          this.profileImage = this.sanitizer.bypassSecurityTrustUrl(str);
-        });
-      },
-      error => {
-        this.profileImage = "assets/imgs/avatar-blank.png";
-      }
-    );
-  }
+  
 
   // https://gist.github.com/frumbert/3bf7a68ffa2ba59061bdcfc016add9ee
   blobToDataURL(blob) {
@@ -227,7 +217,7 @@ export class DetalheInspecaoPage {
   getCameraPicture() {
     this.cameraOn = true;
     const options: CameraOptions = {
-      quality: 50,
+      quality: 70,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.PNG,
       mediaType: this.camera.MediaType.PICTURE
@@ -247,17 +237,17 @@ export class DetalheInspecaoPage {
   finalizar() {
     
     if (this.laudo.imagem != null) {
-      let id = this.laudo.id.toString() + this.count.toString();
       let imagem = this.laudo.imagem.substring(0, 5);
       if (imagem != "https") {
-        this.laudoService.uploadPicture(this.laudo.imagem, id).subscribe(
+        this.laudoService.uploadPicture(this.laudo.imagem, this.idImagem).subscribe(
           response => {
-            this.laudo.imagem = response.body;            
+            this.laudo.imagem = response.body;     
+            this.update();       
           },
           error => {}
         );
       }
-        this.update();
+       
       
     }
   }

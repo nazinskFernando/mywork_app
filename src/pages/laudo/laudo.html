@@ -18,7 +18,7 @@
   </inspecao>
 
 
-  <ion-card *ngFor="let item of laudos">
+  <ion-card *ngFor="let item of laudos.reverse()">
     <ion-list >
       <ion-item >
         <ion-thumbnail item-start (click)="detalheInspecaoByID(item.id)">
@@ -26,7 +26,7 @@
         </ion-thumbnail>        
         <strong (click)="detalheInspecaoByID(item.id)">{{item.descricaoLaudo.tipoLaudo.descricao}}</strong>        
         <p (click)="detalheInspecaoByID(item.id)">{{item.descricaoLaudo.descricao}}</p>
-        <button ion-button clear icon-only item-end (click)="deletarLaudo(item.id)">
+        <button ion-button clear icon-only item-end (click)="deletarLaudo(item)">
           <ion-icon name="trash"></ion-icon>
         </button>
       </ion-item>

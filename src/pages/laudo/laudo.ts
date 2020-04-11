@@ -49,34 +49,45 @@ export class LaudoPage {
         this.equipamento = this.inspecao.equipamento;
         this.cliente = this.equipamento.cliente;
         this.laudos = this.inspecao.laudos;
-        console.log(this.inspecao );
+        
       },
       error => {});
   }
 
+
   detalheInspecaoByID(id?:string){
     let criarNovaLingada = this.modalCtrl.create('DetalheInspecaoPage',  {id: id, inspecaoId: this.inspecaoId});
     criarNovaLingada.onDidDismiss(data => {
-      console.log(data);
-      this.inspecaoId = data;
       this.carregarLaudo();
     });
     criarNovaLingada.present();
    
   }
 
-  deletarLaudo(id: string){
+  deletarLaudo(laudo: LaudoDTO){    
+    if (laudo.imagem != null) {      
+        var imagemId = laudo.imagem.substring(laudo.imagem.indexOf("com/") + 6);
+        imagemId = imagemId.split(".")[0];
+        console.log('imagem', imagemId);
+        this.laudoService.deletePicture(imagemId).subscribe(
+          response => {
+            this.deletInLaudo(laudo.id);
+          },
+          error => {}
+        );               
+    }  
+  }
+
+  deletInLaudo(id){
     this.laudoService.delete(id).subscribe((response) => {        
-        this.carregarLaudo();
-      },
-      error => {});
+      this.carregarLaudo();
+    },
+    error => {});
   }
 
   novoLaudo(){
-    let criarNovaLingada = this.modalCtrl.create('NewLaudoPage',  {inspecaoId: this.inspecaoId});
+    let criarNovaLingada = this.modalCtrl.create('NewLaudoPage',  {inspecaoId: this.inspecaoId, count: this.laudos.length});
     criarNovaLingada.onDidDismiss(data => {
-      console.log(data);
-      this.inspecaoId = data;
       this.carregarLaudo();
     });
     criarNovaLingada.present();

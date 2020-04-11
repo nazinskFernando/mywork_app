@@ -5,12 +5,12 @@ export class LaudoDTO {
 
     constructor(
         public id: string,
-        public imagem: any,
-        public descricaoLaudo: DescricaoLaudoDTO,
+        public imagem: any,        
         public usarRelatorio: boolean,
         public comDesvio: boolean,
         public inspecao: string,
-        public equipamento?: string
+        public equipamento?: string,
+        public descricaoLaudo?: DescricaoLaudoDTO,
     ){
 
     }
