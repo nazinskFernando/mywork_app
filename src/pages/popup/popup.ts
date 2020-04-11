@@ -31,7 +31,6 @@ export class PopupPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PopupPage');
     this.inspecaoId = this.navParams.get('id');
   }
  
@@ -46,7 +45,7 @@ export class PopupPage {
   
       this.inspecaoService.update(inspecaoUpdate)
         .subscribe((response) => {
-          this.viewCtrl.dismiss({id: this.inspecaoId});
+          this.fechar();
         },
         error => {});       
   }

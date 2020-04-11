@@ -67,7 +67,6 @@ export class InspecaoPage {
         {
           text: 'Cancelar',
           handler: data => {
-            console.log('Cancel clicked');
           }
         },
         {
@@ -85,7 +84,7 @@ export class InspecaoPage {
   popFinalizacao(){
     let criarNovaLingada = this.modalCtrl.create('PopupPage', {id: this.inspecao.id});
     criarNovaLingada.onDidDismiss(data => {
-      console.log(data);
+      this.carregarLaudo(); 
       this.inspecao.observacao = data.comentario;
       this.inspecao.estadoEquipamento = data.estado;      
     });
@@ -122,10 +121,9 @@ export class InspecaoPage {
     prompt.present();
   }
 
-  
-
   carregarLaudo(){
     this.inspecaoId = this.navParams.get('id');
+    console.log('inspecaoId', this.inspecaoId);
     this.inspecaoService.findById(this.inspecaoId)
       .subscribe((response : InspecaoDTO) => {
         

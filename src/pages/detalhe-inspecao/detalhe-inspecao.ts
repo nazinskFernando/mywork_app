@@ -5,7 +5,7 @@ import { InspecaoService } from "./../../services/domain/inspecao.service";
 import { API_CONFIG } from "./../../config/api.config";
 import { LaudoService } from "../../services/domain/laudo.service";
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { IonicPage, NavController, NavParams, ViewController } from "ionic-angular";
 import { Camera, CameraOptions } from "@ionic-native/camera";
 import { DomSanitizer } from "@angular/platform-browser";
 import { InspecaoDTO } from "../../models/inspecao.dto";
@@ -48,7 +48,8 @@ export class DetalheInspecaoPage {
     public laudoService: LaudoService,
     public sanitizer: DomSanitizer,
     public inspecaoService: InspecaoService,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public viewCtrl: ViewController
   ) {
     this.inspecaoId = this.navParams.get("inspecaoId");
     this.laudo.id = this.navParams.get("id");
@@ -192,7 +193,7 @@ export class DetalheInspecaoPage {
    
     this.laudoService.update(this.laudo).subscribe(
       response => {
-        this.navCtrl.push("LaudoPage", { id: this.inspecaoId });
+        this.closeModal();
       },
       error => {}
     );
@@ -261,7 +262,25 @@ export class DetalheInspecaoPage {
     }
   }
 
+  getPhoto() {
+    const options: CameraOptions = {
+      quality: 70,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      saveToPhotoAlbum: false
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      this.laudo.imagem = "data:image/png;base64," + imageData;
+    });
+    
+  }
+
   cancel() {
     this.laudo.imagem = null;
+  }
+
+  closeModal(){
+    this.viewCtrl.dismiss({ id: this.inspecaoId });
   }
 }

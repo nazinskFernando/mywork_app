@@ -75,7 +75,6 @@ export class NewEquipamentosConectadosPage {
       this.equipamentoService.findByEquipamentos(this.partNumber, this.serialNumber)
       .subscribe((response : EquipamentoDTO[]) => {        
         this.equipamentos = response; 
-        console.log('eequipamentos', this.equipamentos.length);
         if( this.equipamentos.length == 0){
           this.isEquipamento = false;          
         } else {

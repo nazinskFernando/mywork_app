@@ -7,10 +7,15 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Registros Fotográficos</ion-title>
-  </ion-navbar>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="closeModal()">
+        <ion-icon name="md-close"> </ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar> 
 </ion-header>
 
-<ion-content>
+<ion-content>  
   <ion-card>
     <ion-card>
       <img
@@ -24,6 +29,16 @@
         (click)="getCameraPicture()"
       />
     </ion-card>
+    <ion-item>
+      <button ion-button color="light" icon-start item-start (click)="getPhoto()">
+        <ion-icon name="md-arrow-up"></ion-icon>        
+        Carregar imagem
+      </button>
+      <button ion-button color="light" icon-start item-end (click)="getCameraPicture()">
+        <ion-icon name="ios-camera"></ion-icon>
+        Tirar foto
+      </button>
+    </ion-item>
     <button
       *ngIf="laudo.imagem != null"
       ion-button

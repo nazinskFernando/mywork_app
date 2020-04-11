@@ -1,7 +1,7 @@
 import { DescricaoLaudoDTO } from "./../../models/descricaoLaudo.dto";
 import { TipoLaudoDTO } from "./../../models/tipoLaudo.dto";
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { IonicPage, NavController, NavParams, ModalController, ViewController } from "ionic-angular";
 import { LaudoDTO } from "../../models/laudo.dto";
 import { Camera, CameraOptions } from "@ionic-native/camera";
 import { LaudoService } from "../../services/domain/laudo.service";
@@ -9,7 +9,6 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { InspecaoService } from "../../services/domain/inspecao.service";
 import { InspecaoDTO } from "../../models/inspecao.dto";
 import { AlertController } from "ionic-angular";
-
 /**
  * Generated class for the NewLaudoPage page.
  *
@@ -48,7 +47,8 @@ export class NewLaudoPage {
     public laudoService: LaudoService,
     public sanitizer: DomSanitizer,
     public inspecaoService: InspecaoService,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    public viewCtrl: ViewController,  
   ) {
     this.inspecaoId = this.navParams.get("inspecaoId");
   }
@@ -161,7 +161,8 @@ export class NewLaudoPage {
   }
 
   finalizar() {
-    this.navCtrl.push("LaudoPage", { id: this.inspecaoId });
+    this.closeModal();
+    // this.navCtrl.push("LaudoPage", { id: this.inspecaoId });
   }
 
   // https://gist.github.com/frumbert/3bf7a68ffa2ba59061bdcfc016add9ee
@@ -174,25 +175,7 @@ export class NewLaudoPage {
     });
   }
 
-  getCameraPicture() {
-    this.cameraOn = true;
-    const options: CameraOptions = {
-      quality: 50,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.PNG,
-      mediaType: this.camera.MediaType.PICTURE
-    };
-
-    this.camera.getPicture(options).then(
-      imageData => {
-        this.laudo.imagem = "data:image/png;base64," + imageData;
-        this.cameraOn = false;
-      },
-      err => {
-        this.cameraOn = false;
-      }
-    );
-  }
+  
 
   proximo() {
     this.count++;
@@ -271,4 +254,43 @@ export class NewLaudoPage {
       console.log('laudo Final', this.laudo);
     }
   }
+
+  getPhoto() {
+    const options: CameraOptions = {
+      quality: 70,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      saveToPhotoAlbum: false
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      this.laudo.imagem = "data:image/png;base64," + imageData;
+    });
+    
+  }
+
+  getCameraPicture() {
+    this.cameraOn = true;
+    const options: CameraOptions = {
+      quality: 50,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.PNG,
+      mediaType: this.camera.MediaType.PICTURE
+    };
+
+    this.camera.getPicture(options).then(
+      imageData => {
+        this.laudo.imagem = "data:image/png;base64," + imageData;
+        this.cameraOn = false;
+      },
+      err => {
+        this.cameraOn = false;
+      }
+    );
+  }
+
+  closeModal(){
+    this.viewCtrl.dismiss({id: this.inspecaoId});
+  }
+  
 }

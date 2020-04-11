@@ -49,24 +49,18 @@
       </ion-item>
     </ion-list>
   </div>
-  <ion-footer>
-    <ion-toolbar>
-      <ion-title>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <button block ion-button clear color="danger" (click)="fechar()">
-                Cancelar
-              </button>
-            </ion-col>
-            <ion-col>
-              <button block ion-button clear (click)="finalizar()">
-                Finalizar
-              </button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-title>
-    </ion-toolbar>
-  </ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <button block ion-button clear color="danger" (click)="fechar()">
+          Cancelar
+        </button>
+      </ion-col>
+      <ion-col>
+        <button block ion-button clear (click)="finalizar()">
+          Finalizar
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

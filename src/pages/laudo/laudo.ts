@@ -5,7 +5,7 @@ import { InspecaoDTO } from '../../models/inspecao.dto';
 import { LaudoService } from './../../services/domain/laudo.service';
 import { InspecaoService } from './../../services/domain/inspecao.service';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 
 /**
  * Generated class for the LaudoPage page.
@@ -32,7 +32,8 @@ export class LaudoPage {
               public navCtrl: NavController, 
               public navParams: NavParams,
               public inspecaoService: InspecaoService,
-              public laudoService: LaudoService) {
+              public laudoService: LaudoService,
+              public modalCtrl: ModalController) {
   }
   
   ionViewDidLoad() {
@@ -54,7 +55,14 @@ export class LaudoPage {
   }
 
   detalheInspecaoByID(id?:string){
-    this.navCtrl.push('DetalheInspecaoPage', {id: id, inspecaoId: this.inspecaoId}); 
+    let criarNovaLingada = this.modalCtrl.create('DetalheInspecaoPage',  {id: id, inspecaoId: this.inspecaoId});
+    criarNovaLingada.onDidDismiss(data => {
+      console.log(data);
+      this.inspecaoId = data;
+      this.carregarLaudo();
+    });
+    criarNovaLingada.present();
+   
   }
 
   deletarLaudo(id: string){
@@ -65,7 +73,13 @@ export class LaudoPage {
   }
 
   novoLaudo(){
-    this.navCtrl.setRoot('NewLaudoPage',{inspecaoId: this.inspecaoId});
+    let criarNovaLingada = this.modalCtrl.create('NewLaudoPage',  {inspecaoId: this.inspecaoId});
+    criarNovaLingada.onDidDismiss(data => {
+      console.log(data);
+      this.inspecaoId = data;
+      this.carregarLaudo();
+    });
+    criarNovaLingada.present();
   }
 
 }
