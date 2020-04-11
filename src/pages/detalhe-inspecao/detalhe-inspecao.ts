@@ -24,7 +24,7 @@ import { AlertController } from "ionic-angular/components/alert/alert-controller
   templateUrl: "detalhe-inspecao.html"
 })
 export class DetalheInspecaoPage {
-  laudo = new LaudoDTO("", null, null, false, false, null);
+  laudo = new LaudoDTO("", null, null, false, null, null);
   cameraOn: boolean = false;
   profileImage;
   idImagem: string;
