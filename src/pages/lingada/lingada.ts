@@ -1,9 +1,8 @@
 import { LingadaService } from './../../services/domain/lingada.service';
-import { AuthService } from './../../services/auth.service';
 import { InspecaoService } from '../../services/domain/inspecao.service';
 import { InspecaoDTO } from '../../models/inspecao.dto';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, ViewController } from 'ionic-angular';
 import { ClienteDTO } from '../../models/cliente.dto';
 import { EquipamentoDTO } from '../../models/equipamento.dto';
 /**
@@ -32,7 +31,8 @@ export class LingadaPage {
     public navParams: NavParams,
     public lingadaService: LingadaService,
     public inspecaoService: InspecaoService,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public viewCtrl: ViewController,
     ) {
   }
 
@@ -63,6 +63,7 @@ export class LingadaPage {
       this.carregarDados();
     });
     criarNovaLingada.present();
+    
     // this.navCtrl.push('NewLingadaPage', {inspecao: this.inspecao.id, lingada: id});
   }
 

@@ -187,8 +187,7 @@ export class DetalheInspecaoPage {
     }
   }
 
-  update() {
-    
+  update() {    
     this.laudo.equipamento = this.inspecao.equipamento.id;
     this.laudo.inspecao = this.inspecaoId;  
     this.laudo.descricaoLaudo = this.descricaoLaudoDTO;  
@@ -205,19 +204,21 @@ export class DetalheInspecaoPage {
   
 
   // https://gist.github.com/frumbert/3bf7a68ffa2ba59061bdcfc016add9ee
-  blobToDataURL(blob) {
-    return new Promise((fulfill, reject) => {
-      let reader = new FileReader();
-      reader.onerror = reject;
-      reader.onload = e => fulfill(reader.result);
-      reader.readAsDataURL(blob);
-    });
-  }
+  // blobToDataURL(blob) {
+  //   return new Promise((fulfill, reject) => {
+  //     let reader = new FileReader();
+  //     reader.onerror = reject;
+  //     reader.onload = e => fulfill(reader.result);
+  //     reader.readAsDataURL(blob);
+  //   });
+  // }
 
   getCameraPicture() {
     this.cameraOn = true;
     const options: CameraOptions = {
-      quality: 70,
+      quality: 100,
+      targetWidth: 1000,
+      targetHeight: 680,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.PNG,
       mediaType: this.camera.MediaType.PICTURE
@@ -254,7 +255,9 @@ export class DetalheInspecaoPage {
 
   getPhoto() {
     const options: CameraOptions = {
-      quality: 70,
+      quality: 100,
+      targetWidth: 1000,
+      targetHeight: 680,
       destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       saveToPhotoAlbum: false

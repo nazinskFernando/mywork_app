@@ -6,4 +6,7 @@ export class EquipamentoDTO {
     serialNumber : string;
     cliente : ClienteDTO;
     isInspecionado : boolean;
+    contratoJuridico: string;
+    contSap: string;
+    tag: string;
 }

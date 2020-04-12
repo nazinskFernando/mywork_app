@@ -1,7 +1,7 @@
 import { DescricaoLaudoDTO } from "./../../models/descricaoLaudo.dto";
 import { TipoLaudoDTO } from "./../../models/tipoLaudo.dto";
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams, ModalController, ViewController } from "ionic-angular";
+import { IonicPage, NavController, NavParams, ViewController } from "ionic-angular";
 import { LaudoDTO } from "../../models/laudo.dto";
 import { Camera, CameraOptions } from "@ionic-native/camera";
 import { LaudoService } from "../../services/domain/laudo.service";
@@ -172,14 +172,14 @@ export class NewLaudoPage {
   }
 
   // https://gist.github.com/frumbert/3bf7a68ffa2ba59061bdcfc016add9ee
-  blobToDataURL(blob) {
-    return new Promise((fulfill, reject) => {
-      let reader = new FileReader();
-      reader.onerror = reject;
-      reader.onload = e => fulfill(reader.result);
-      reader.readAsDataURL(blob);
-    });
-  }
+  // blobToDataURL(blob) {
+  //   return new Promise((fulfill, reject) => {
+  //     let reader = new FileReader();
+  //     reader.onerror = reject;
+  //     reader.onload = e => fulfill(reader.result);
+  //     reader.readAsDataURL(blob);
+  //   });
+  // }
   
 
   proximo() {
@@ -262,9 +262,12 @@ export class NewLaudoPage {
 
   getPhoto() {
     const options: CameraOptions = {
-      quality: 70,
+      quality: 100,
+      targetWidth: 1000,
+      targetHeight: 680,
       destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      encodingType: this.camera.EncodingType.PNG,
       saveToPhotoAlbum: false
     }
 
@@ -277,7 +280,9 @@ export class NewLaudoPage {
   getCameraPicture() {
     this.cameraOn = true;
     const options: CameraOptions = {
-      quality: 50,
+      quality: 100,
+      targetWidth: 1000,
+      targetHeight: 680,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.PNG,
       mediaType: this.camera.MediaType.PICTURE
