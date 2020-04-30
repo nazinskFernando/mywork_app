@@ -121,6 +121,29 @@ export class InspecaoPage {
     prompt.present();
   }
 
+
+  popRetornoAlterarStatus() {
+    const prompt = this.alertCtrl.create({
+      title: `Realizar Inspeção?`,
+      message: "",
+      buttons: [
+        {
+          text: 'Não',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Sim',
+          handler: data => {            
+           this.alterarStatus(null, '1');                     
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
   carregarLaudo(){
     this.inspecaoId = this.navParams.get('id');
     console.log('inspecaoId', this.inspecaoId);
@@ -139,35 +162,29 @@ export class InspecaoPage {
   carregarQtds(){
     this.qtdLaudos.valor = this.inspecao.laudos.length;
     if(this.qtdLaudos.valor !=0){
-      this.qtdLaudos.color = "secondary";
-      if(this.inspecao.statusInspecao == "PENDENTE"){
-        this.alterarStatus(null, '1');
-      }
+      this.qtdLaudos.color = "secondary";      
     }
 
     this.qtdLingada.valor = this.inspecao.lingadas.length;
     if(this.qtdLingada.valor !=0){
       this.qtdLingada.color = "secondary";
-      if(this.inspecao.statusInspecao == "PENDENTE"){
-        this.alterarStatus(null, '1');
-      }
+      
     }
 
     this.qtdAcessoriosComponentes.valor = this.inspecao.acessoriosComponentes.length;
     if(this.qtdAcessoriosComponentes.valor !=0){
       this.qtdAcessoriosComponentes.color = "secondary";
-      if(this.inspecao.statusInspecao == "PENDENTE"){
-        this.alterarStatus(null, '1');
-      }
+     
     }
 
     this.qtdEquipamentosConectados.valor = this.inspecao.equipamentosConectados.length;
-    if(this.qtdEquipamentosConectados.valor !=0){
-      
+    if(this.qtdEquipamentosConectados.valor !=0){      
       this.qtdEquipamentosConectados.color = "secondary";
-      if(this.inspecao.statusInspecao == "PENDENTE"){
-        this.alterarStatus(null, '1');
-      }
+      
+    }
+    
+    if(this.inspecao.statusInspecao == "PENDENTE"){
+      this.popRetornoAlterarStatus();
     }
   }
 
@@ -203,5 +220,6 @@ export class InspecaoPage {
       },
       error => {});
   }
+
 
 }

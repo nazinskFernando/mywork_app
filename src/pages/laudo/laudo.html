@@ -22,7 +22,7 @@
     <ion-list >
       <ion-item >
         <ion-thumbnail item-start (click)="detalheInspecaoByID(item.id)">
-          <img [src]="item.imagem" />
+          <img [src]="'data:image/jpg;base64,' + item.imagem" />
         </ion-thumbnail>        
         <strong (click)="detalheInspecaoByID(item.id)">{{item.descricaoLaudo.tipoLaudo.descricao}}</strong>        
         <p (click)="detalheInspecaoByID(item.id)">{{item.descricaoLaudo.descricao}}</p>
