@@ -6,37 +6,48 @@
 -->
 
 <ion-header>
-
-  <ion-navbar>   
+  <ion-navbar>
     <ion-title>Acessórios e componentes</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-fab right top>
-    <button *ngIf="qtdAcessorios < 2" (click)="novoAcessorio('')" ion-fab color="primary">
-      <ion-icon name="add"></ion-icon>
-    </button>
-  </ion-fab>
-  <inspecao 
-      [inspecao]="inspecao" 
-      [equipamento]="equipamento" 
-      [cliente]="cliente">
-  </inspecao>
+  <loading *ngIf="!loading"></loading>
+  <div *ngIf="loading">
+    <ion-fab right top>
+      <button
+        *ngIf="qtdAcessorios < 2"
+        (click)="novoAcessorio('')"
+        ion-fab
+        color="primary"
+      >
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-fab>
+    <inspecao
+      [inspecao]="inspecao"
+      [equipamento]="equipamento"
+      [cliente]="cliente"
+    >
+    </inspecao>
 
-   <ion-item *ngFor="let item of inspecao.acessoriosComponentes" >
-    <ion-icon name="ios-construct-outline" item-start></ion-icon>
+    <ion-item *ngFor="let item of inspecao.acessoriosComponentes">
+      <ion-icon name="ios-construct-outline" item-start></ion-icon>
       <div (click)="novoAcessorio(item.id)">
-        <p><strong>Descrição: </strong> {{item.descricao}}</p>   
+        <p><strong>Descrição: </strong> {{item.descricao}}</p>
         <p><strong>BP: </strong> {{item.bp}}</p>
-        <p><strong>PN: </strong>{{item.pn}}</p> 
-        <p><strong>SN: </strong>{{item.ns}}</p>            
+        <p><strong>PN: </strong>{{item.pn}}</p>
+        <p><strong>SN: </strong>{{item.ns}}</p>
       </div>
-      <button ion-button clear icon-only item-end (click)="deletarLingada(item.id)">
+      <button
+        ion-button
+        clear
+        icon-only
+        item-end
+        (click)="deletarLingada(item.id)"
+      >
         <ion-icon name="trash"></ion-icon>
       </button>
-      
-        
     </ion-item>
-
+  </div>
 </ion-content>

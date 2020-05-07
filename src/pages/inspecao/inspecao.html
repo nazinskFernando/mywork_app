@@ -10,6 +10,8 @@
 </ion-header>
 
 <ion-content>
+  <loading *ngIf="!loading"></loading>
+  <div *ngIf="loading">
     <inspecao 
       [inspecao]="inspecao" 
       [equipamento]="equipamento" 
@@ -40,8 +42,9 @@
         Laudos
         <ion-badge item-end [color]="qtdLaudos.color">{{qtdLaudos.valor}}</ion-badge>
     </ion-item>
+    </div>
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="loading">
   <ion-toolbar>
     <ion-title>
       <ion-grid>

@@ -15,10 +15,12 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content style="height: 100%;">
+  <loading *ngIf="!loading"></loading>
+  <div *ngIf="loading" >
   <ion-card>
     <ion-card>
-      <img
+      <img style="height: 80; width: 100;"
         *ngIf="laudo.imagem == null"
         (click)="getCameraPicture()"
         src="../assets/imgs/prod.jpg"
@@ -83,9 +85,10 @@
     </ion-list>
   
   </ion-card>
+</div>
 
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="loading">
   <button ion-button color="secondary" block (click)="finalizar()">
     Salvar
   </button>

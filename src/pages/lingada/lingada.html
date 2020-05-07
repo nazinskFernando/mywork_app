@@ -13,6 +13,8 @@
 </ion-header>
 
 <ion-content>
+  <loading *ngIf="!loading"></loading>
+  <div *ngIf="loading">
   <ion-fab right top>
     <button *ngIf="qtdLingadas < 2" (click)="novaLingada('')" ion-fab color="primary">
       <ion-icon name="add"></ion-icon>
@@ -36,5 +38,5 @@
         <ion-icon name="trash"></ion-icon>
       </button>      
     </ion-item>
-
+</div>
 </ion-content>

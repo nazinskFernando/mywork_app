@@ -40,6 +40,7 @@ export class DetalheInspecaoPage {
   tiposLaudoAll: TipoLaudoDTO[];
   qtdTitulo: number = 0;
   qtdDescricao: number = 0;
+  loading: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -69,6 +70,7 @@ export class DetalheInspecaoPage {
   }
 
    getTipoLaudoAll() {
+    this.loading = false;
     this.laudoService.findAll().subscribe(
       (response: TipoLaudoDTO[]) => {
         this.tiposLaudoAll = response;
@@ -78,13 +80,14 @@ export class DetalheInspecaoPage {
             this.tipoLaudo = this.tiposLaudoAll[index];
           }
         }
-       
+        this.loading = true;
       },
       error => {}
     );
   }
 
   getInspecao() {
+    this.loading = false;
     this.inspecaoService.findById(this.inspecaoId).subscribe(
       (response: InspecaoDTO) => {
         this.inspecao = response;
@@ -93,6 +96,7 @@ export class DetalheInspecaoPage {
         this.idImagem = this.idImagem.split(".")[0];
         console.log('imagem valor', this.idImagem)
         this.getTipoLaudoAll();
+        this.loading = true;
       },
       error => {}
     );
@@ -187,7 +191,8 @@ export class DetalheInspecaoPage {
     }
   }
 
-  update() {    
+  update() {   
+    this.loading = false; 
     this.laudo.equipamento = this.inspecao.equipamento.id;
     this.laudo.inspecao = this.inspecaoId;  
     this.laudo.descricaoLaudo = this.descricaoLaudoDTO;  
@@ -196,6 +201,7 @@ export class DetalheInspecaoPage {
     this.laudoService.update(this.laudo).subscribe(
       response => {
         this.closeModal();
+        this.loading = true;
       },
       error => {}
     );

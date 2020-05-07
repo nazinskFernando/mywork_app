@@ -1,0 +1,21 @@
+
+@media only screen and (max-width: 500px) {
+    .loading{
+        width: 150px;
+        margin: 40% 30%;
+    }
+    }
+
+    @media only screen and (min-width: 500px) {
+        .loading{
+            width: 150px;
+            margin: 30% 35%;
+        }
+    }
+
+    @media only screen and (min-width: 680px) {
+        .loading{
+            width: 150px;
+            margin: 30% 40%;
+        }
+    }

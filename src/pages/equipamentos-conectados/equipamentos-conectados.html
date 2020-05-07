@@ -13,6 +13,8 @@
 </ion-header>
 
 <ion-content>
+  <loading *ngIf="!loading"></loading>
+  <div *ngIf="loading">
   <ion-fab right top>
     <button (click)="novoAcessorio('')" ion-fab color="primary">
       <ion-icon name="add"></ion-icon>
@@ -35,5 +37,5 @@
       </button>     
         
     </ion-item>
-
+</div>
 </ion-content>

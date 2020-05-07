@@ -32,6 +32,7 @@ export class InspecaoPage {
   cliente =  new ClienteDTO;
   acessoriosComponentes = new Array<AcessoriosComponentesDTO>();
   lingadas = new Array<LingadaDTO>();
+  loading:boolean=false;
   
   qtdLaudos = {"color": "danger", "valor": 0};
   qtdLingada = {"color": "danger", "valor": 0};
@@ -67,6 +68,7 @@ export class InspecaoPage {
         {
           text: 'Cancelar',
           handler: data => {
+            this.loading = true;
           }
         },
         {
@@ -82,6 +84,7 @@ export class InspecaoPage {
   }
 
   popFinalizacao(){
+    
     let criarNovaLingada = this.modalCtrl.create('PopupPage', {id: this.inspecao.id});
     criarNovaLingada.onDidDismiss(data => {
       this.carregarLaudo(); 
@@ -131,6 +134,7 @@ export class InspecaoPage {
           text: 'Não',
           handler: data => {
             console.log('Cancel clicked');
+            this.loading=true;
           }
         },
         {
@@ -145,16 +149,18 @@ export class InspecaoPage {
   }
 
   carregarLaudo(){
+    this.loading=false;
     this.inspecaoId = this.navParams.get('id');
     console.log('inspecaoId', this.inspecaoId);
     this.inspecaoService.findById(this.inspecaoId)
       .subscribe((response : InspecaoDTO) => {
-        
+        this.loading=true;
         this.inspecao = response;
         this.equipamento = this.inspecao.equipamento;
         this.cliente = this.equipamento.cliente;
         this.laudos = this.inspecao.laudos;
         this.carregarQtds();
+        this.loading=true;
       },
       error => {});
   }
@@ -207,6 +213,7 @@ export class InspecaoPage {
     }
   }
   alterarStatus(observacao, status){
+    this.loading=false;
     var inspecaoUpdate = new InspecaoDTO();
    
     this.inspecao.observacao = observacao;

@@ -27,6 +27,7 @@ export class AcessoriosComponentesPage {
   equipamento = new EquipamentoDTO;
   inspecaoId: string;
   cliente =  new ClienteDTO;
+  loading: boolean = false;
 
   qtdAcessorios:number;
 
@@ -46,10 +47,11 @@ export class AcessoriosComponentesPage {
   }
 
   carregarDados(){
+    this.loading = false;
     this.inspecaoId = this.navParams.get('id');
     this.inspecaoService.findById(this.inspecaoId)
       .subscribe((response : InspecaoDTO) => {
-        
+        this.loading = true;
         this.inspecao = response;
         this.equipamento = this.inspecao.equipamento;
         this.cliente = this.equipamento.cliente;
@@ -59,7 +61,6 @@ export class AcessoriosComponentesPage {
   }
 
   novoAcessorio(id){
-
     let criarNovaLingada = this.modalCtrl.create('NewAcessoriosComponentesPage',  {inspecao: this.inspecao.id, acessoriosId: id});
     criarNovaLingada.onDidDismiss(data => {
       console.log(data);
@@ -70,7 +71,7 @@ export class AcessoriosComponentesPage {
   }
 
   deletarLingada(id: string){
-    
+    this.loading = false;
     this.acessorioService.delete(id)
       .subscribe((response) => {        
         this.carregarDados();

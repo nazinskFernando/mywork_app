@@ -27,6 +27,7 @@ export class EquipamentosConectadosPage {
   equipamento = new EquipamentoDTO;
   inspecaoId: string;
   cliente =  new ClienteDTO;
+  loading: boolean = false;
 
   constructor(
     public navCtrl: NavController, 
@@ -43,6 +44,7 @@ export class EquipamentosConectadosPage {
   }
 
   carregarDados(){
+    this.loading = false;
     this.inspecaoId = this.navParams.get('id');
     this.inspecaoService.findById(this.inspecaoId)
       .subscribe((response : InspecaoDTO) => {
@@ -50,6 +52,7 @@ export class EquipamentosConectadosPage {
         this.inspecao = response;
         this.equipamento = this.inspecao.equipamento;
         this.cliente = this.equipamento.cliente;   
+        this.loading = true;
       },
       error => {});
   }
@@ -66,7 +69,7 @@ export class EquipamentosConectadosPage {
   }
 
   deletarLingada(id: string){
-    
+    this.loading = false;
     this.equipamentoConectadoService.delete(id)
       .subscribe((response) => {        
         this.carregarDados();

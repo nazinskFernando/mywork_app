@@ -15,7 +15,7 @@ export class HomePage {
  
   bucketUrl: string = API_CONFIG.bucketBaseUrl;
   items: InspecaoDTO[];
-  
+  loading: boolean = false;
 
   constructor(
       public navCtrl: NavController, 
@@ -37,9 +37,11 @@ export class HomePage {
   }
 
   inicio() {
+    this.loading = false;
     this.inspecaoService.findAll()
       .subscribe((response : InspecaoDTO[])=> {
         this.items = response;
+        this.loading = true;
       },
       error => {});
   }

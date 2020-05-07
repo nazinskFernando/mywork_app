@@ -17,7 +17,8 @@
 </ion-header>
 
 <ion-content>
-
+<loading *ngIf="!loading"></loading>
+<div *ngIf="loading">
   <ion-card *ngFor="let item of items"  (click)="Inspecao(item.id)">
 
     <ion-card-content>
@@ -45,5 +46,5 @@
       </ion-row>
     </ion-card-content>
   </ion-card>
-
+</div>
 </ion-content>

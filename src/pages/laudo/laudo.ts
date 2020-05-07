@@ -27,6 +27,7 @@ export class LaudoPage {
   idEquipamento: any;
   inspecaoId: string;
   cliente =  new ClienteDTO;
+  loading:boolean = false;
 
   constructor(
               public navCtrl: NavController, 
@@ -41,6 +42,7 @@ export class LaudoPage {
   }
 
   carregarLaudo(){
+    this.loading = false;
     this.inspecaoId = this.navParams.get('id');
     this.inspecaoService.findById(this.inspecaoId)
       .subscribe((response : InspecaoDTO) => {
@@ -49,7 +51,7 @@ export class LaudoPage {
         this.equipamento = this.inspecao.equipamento;
         this.cliente = this.equipamento.cliente;
         this.laudos = this.inspecao.laudos;
-        
+        this.loading = true;
       },
       error => {});
   }
@@ -64,7 +66,8 @@ export class LaudoPage {
    
   }
 
-  deletarLaudo(laudo: LaudoDTO){    
+  deletarLaudo(laudo: LaudoDTO){  
+    this.loading = false;  
     if (laudo.imagem != null) {      
         var imagemId = laudo.imagem.substring(laudo.imagem.indexOf("com/") + 6);
         imagemId = imagemId.split(".")[0];
@@ -79,6 +82,7 @@ export class LaudoPage {
   }
 
   deletInLaudo(id){
+    this.loading = false;
     this.laudoService.delete(id).subscribe((response) => {        
       this.carregarLaudo();
     },

@@ -25,6 +25,7 @@ export class LingadaPage {
   cliente =  new ClienteDTO;
 
   qtdLingadas:number;
+  loading: boolean = false;
 
   constructor(
     public navCtrl: NavController, 
@@ -42,10 +43,11 @@ export class LingadaPage {
   }
 
   carregarDados(){
+    this.loading = false;
     this.inspecaoId = this.navParams.get('id');
     this.inspecaoService.findById(this.inspecaoId)
       .subscribe((response : InspecaoDTO) => {
-        
+        this.loading = true;
         this.inspecao = response;
         this.equipamento = this.inspecao.equipamento;
         this.cliente = this.equipamento.cliente;
@@ -58,7 +60,6 @@ export class LingadaPage {
 
     let criarNovaLingada = this.modalCtrl.create('NewLingadaPage',  {inspecao: this.inspecao.id, lingada: id});
     criarNovaLingada.onDidDismiss(data => {
-      console.log(data);
       this.inspecaoId = data;
       this.carregarDados();
     });
@@ -68,7 +69,7 @@ export class LingadaPage {
   }
 
   deletarLingada(id: string){
-    
+    this.loading = false;
     this.lingadaService.delete(id)
       .subscribe((response) => {        
         this.carregarDados();
