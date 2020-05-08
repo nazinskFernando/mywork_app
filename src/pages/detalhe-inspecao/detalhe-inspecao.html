@@ -20,12 +20,12 @@
   <div *ngIf="loading" >
   <ion-card>
     <ion-card>
-      <img style="height: 80; width: 100;"
+      <img
         *ngIf="laudo.imagem == null"
         (click)="getCameraPicture()"
         src="../assets/imgs/prod.jpg"
       />
-      <img *ngIf="laudo.imagem != null" [src]="laudo.imagem" (click)="getCameraPicture()" />
+      <img style="height: 200px; width: 400px;" *ngIf="laudo.imagem != null" [src]="laudo.imagem" (click)="getCameraPicture()" />
     </ion-card>
     <ion-item>
       <button ion-button color="light" icon-start item-start (click)="getPhoto()">
