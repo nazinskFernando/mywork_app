@@ -5,46 +5,81 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>
-      <ion-searchbar placeholder="Procurar equipamento" (ionInput)="getItems($event)"></ion-searchbar>
+      <ion-searchbar
+        [(ngModel)]="valorString"
+        [showCancelButton]="shouldShowCancel"
+        placeholder = "Procurar Equipamento"
+        (ionInput)="getItems($event)"
+        (ionCancel)="onCancel($event)"
+      >
+      </ion-searchbar>
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-<loading *ngIf="!loading"></loading>
-<div *ngIf="loading">
-  <ion-card *ngFor="let item of items"  (click)="Inspecao(item.id)">
-
-    <ion-card-content>
-      <ion-row>
-        <ion-col col-7>
-          <strong style="font-size: 12px;">{{item.equipamento.descricao}}</strong>
-
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col col-6>
-          <p style="font-size: 10px;"><strong>NP: </strong>{{item.equipamento.partNumber}}</p>
-          <p style="font-size: 10px;"><strong>NS: </strong>{{item.equipamento.serialNumber}}</p>
-          <p style="font-size: 10px;"><strong>Ordem: </strong>{{item.notaFiscal.numeroOrdem}}</p>
-          <p style="font-size: 10px;"><strong>Origem: </strong>{{item.notaFiscal.origem}}</p>
-        </ion-col>
-        <ion-col pull-0>
-          <div>
-          <p style="font-size: 10px;"><strong>NF: </strong>{{item.notaFiscal.numeroNotaFiscal}}</p>
-          <p style="font-size: 10px;"><strong>Cliente: </strong>{{item.equipamento.cliente.nome}}</p>
-          <p style="font-size: 12px;"><strong>Entrada: </strong>{{item.notaFiscal.dataEntrada}}</p>
-          <p style="font-size: 12px;"><strong>Nº Relatório: </strong>{{item.notaFiscal.numeroRelatorio}}</p>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-card-content>
-  </ion-card>
-</div>
+  <ion-refresher (ionRefresh)="refresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Recarregando..."
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+  <loading *ngIf="!loading"></loading>
+  <div *ngIf="loading">
+    <ion-card *ngFor="let item of items" (click)="Inspecao(item.id)">
+      <ion-card-content>
+        <ion-row>
+          <ion-col col-7>
+            <strong style="font-size: 12px;"
+              >{{item.equipamento.descricao}}</strong
+            >
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>
+            <p style="font-size: 10px;">
+              <strong>NP: </strong>{{item.equipamento.partNumber}}
+            </p>
+            <p style="font-size: 10px;">
+              <strong>NS: </strong>{{item.equipamento.serialNumber}}
+            </p>
+            <p style="font-size: 10px;">
+              <strong>Ordem: </strong>{{item.notaFiscal.numeroOrdem}}
+            </p>
+            <p style="font-size: 10px;">
+              <strong>Origem: </strong>{{item.notaFiscal.origem}}
+            </p>
+          </ion-col>
+          <ion-col pull-0>
+            <div>
+              <p style="font-size: 10px;">
+                <strong>NF: </strong>{{item.notaFiscal.numeroNotaFiscal}}
+              </p>
+              <p style="font-size: 10px;">
+                <strong>Cliente: </strong>{{item.equipamento.cliente.nome}}
+              </p>
+              <p style="font-size: 12px;">
+                <strong>Entrada: </strong>{{item.notaFiscal.dataEntrada}}
+              </p>
+              <p style="font-size: 12px;">
+                <strong>Nº Relatório: </strong
+                >{{item.notaFiscal.numeroRelatorio}}
+              </p>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <ion-infinite-scroll (ionInfinite)="getMore($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

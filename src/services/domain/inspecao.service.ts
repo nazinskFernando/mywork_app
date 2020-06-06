@@ -8,15 +8,18 @@ import { Observable } from "rxjs/Rx";
 export class InspecaoService {
   constructor(public http: HttpClient) {}
 
-  findAll(): Observable<InspecaoDTO[]> {
-    return this.http.get<InspecaoDTO[]>(
-      `${API_CONFIG.baseUrl}/inspecao/pendente`
-    );
-  }
+  
   findById(id: string) {
     return this.http.get<InspecaoDTO>(`${API_CONFIG.baseUrl}/inspecao/${id}`);
   }
 
+  findAll(page, linesPage, orderBy, direction): Observable<InspecaoDTO[]> {
+    return this.http.get<InspecaoDTO[]>(`${API_CONFIG.baseUrl}/inspecao/page/mobile?page=${page}&linesPage=${linesPage}&orderBy=${orderBy}&direction=${direction}`);
+  }
+
+  findAllString(page, linesPage, orderBy, direction, valor) {
+    return this.http.get<InspecaoDTO[]>(`${API_CONFIG.baseUrl}/inspecao/page/mobile/filter?page=${page}&linesPage=${linesPage}&orderBy=${orderBy}&direction=${direction}&valor=${valor}`);
+  }
   update(obj : InspecaoDTO) {       
         
     return this.http.put(
